@@ -1,149 +1,179 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0" version="26.0.5">
-  <diagram name="Page-1" id="SdW673jrMxk2vKFcSP8q">
-    <mxGraphModel dx="1447" dy="995" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
-      <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-1" value="Kitty Clan Points Project" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;strokeWidth=1;fontSize=16;" vertex="1" parent="1">
-          <mxGeometry x="450" y="100" width="360" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-2" value="Flow:&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;- User applies to join the clan after accepting our rules&lt;/div&gt;&lt;div&gt;- Admins have a channel called #new-members where they can approve or deny a request to join.&lt;/div&gt;&lt;div&gt;- On acceptance, user gets a google sheet created&lt;/div&gt;&lt;div&gt;- Users can submit points by supplying a screenshot&lt;/div&gt;&lt;div&gt;- Users can check their points &amp;amp; google sheet&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;" vertex="1" parent="1">
-          <mxGeometry x="350" y="155" width="310" height="140" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" target="r2B7SsZK2ajT2XGIuIDY-8">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="453" y="445" as="sourcePoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-3" value="New member" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;rounded=1;" vertex="1" parent="1">
-          <mxGeometry x="437.5" y="355" width="30" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-8" value="Join Clan&lt;div&gt;&lt;br&gt;&lt;div&gt;Inputs:&lt;/div&gt;&lt;div&gt;- RSN&lt;/div&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="390" y="495" width="125" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-10" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" target="r2B7SsZK2ajT2XGIuIDY-8">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="453" y="635" as="sourcePoint" />
-            <mxPoint x="465" y="695" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-11" value="" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="395" y="635" width="120" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-12" value="#join-clan channel" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;" vertex="1" parent="1">
-          <mxGeometry x="525" y="520" width="120" height="25" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-13" value="#new-members channel (admins only)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;" vertex="1" parent="1">
-          <mxGeometry x="515" y="655" width="150" height="20" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-14" value="Approve / deny" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;" vertex="1" parent="1">
-          <mxGeometry x="402.5" y="650" width="100" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-15" value="Limit to 3 applications per user id, so dopa doesn&#39;t spam the join button" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontStyle=2;" vertex="1" parent="1">
-          <mxGeometry x="515" y="705" width="160" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-17" value="Member&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;id: guid&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;discord_username: string&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;lastupdated: date&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;date_joined: date&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;osrs_names: string[]&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;point_history: Task[]&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;spreadsheet_url: string&lt;/div&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;verticalAlign=top;fontSize=12;rounded=1;" vertex="1" parent="1">
-          <mxGeometry x="120" y="315" width="170" height="185" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-18" value="Entities" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;" vertex="1" parent="1">
-          <mxGeometry x="120" y="280" width="60" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-19" value="Task&lt;br&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;id: guid&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;screenshot_url: string&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;date_achieved: date&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;point_amount: int&lt;/div&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;rounded=1;" vertex="1" parent="1">
-          <mxGeometry x="120" y="537.5" width="170" height="155" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-42" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="r2B7SsZK2ajT2XGIuIDY-20" target="r2B7SsZK2ajT2XGIuIDY-41">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-20" value="Send welcome message (?)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="395" y="755" width="120" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-21" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="454.58000000000004" y="755" as="sourcePoint" />
-            <mxPoint x="454.58000000000004" y="695" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-22" value="Joining the clan" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontStyle=1" vertex="1" parent="1">
-          <mxGeometry x="435" y="300" width="170" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-23" value="Submitting Points" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontStyle=1" vertex="1" parent="1">
-          <mxGeometry x="822.5" y="300" width="170" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-26" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="r2B7SsZK2ajT2XGIuIDY-24" target="r2B7SsZK2ajT2XGIuIDY-25">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-24" value="Submit points channel" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="757.5" y="397.5" width="120" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-27" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="r2B7SsZK2ajT2XGIuIDY-25">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="817.5" y="577.5" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-25" value="/submit (task) (image)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;" vertex="1" parent="1">
-          <mxGeometry x="750" y="497.5" width="135" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-30" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="r2B7SsZK2ajT2XGIuIDY-28">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="952.5" y="692.5" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-28" value="Message queue&lt;div&gt;send:&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Member&lt;/div&gt;&lt;div&gt;Task&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;The screenshot_url will be the discord cdn url of the image. Upload to imgur later&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;" vertex="1" parent="1">
-          <mxGeometry x="750" y="607.5" width="135" height="170" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-31" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="r2B7SsZK2ajT2XGIuIDY-29">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="1010" y="617.5" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-29" value="Process items in queue" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="952.5" y="657.5" width="115" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-34" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="r2B7SsZK2ajT2XGIuIDY-32">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="1010" y="507.5" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-32" value="Imgur upload and update screenshot_url" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="944" y="577.5" width="132" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-35" value="Add to their google sheet" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="958.75" y="447.5" width="102.5" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-41" value="&lt;div&gt;Create their google sheet&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=middle;" vertex="1" parent="1">
-          <mxGeometry x="576.25" y="800" width="107.5" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-45" value="Rank up request" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
-          <mxGeometry x="1180" y="295" width="120" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-47" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="r2B7SsZK2ajT2XGIuIDY-46">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="1240" y="490" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-46" value="Rank up request channel" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="1180" y="387.5" width="120" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-49" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="r2B7SsZK2ajT2XGIuIDY-48">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="1240" y="570" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-48" value="clicc button" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="1210" y="503" width="60" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-51" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="r2B7SsZK2ajT2XGIuIDY-50">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="1240" y="680" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-50" value="&quot;Your rank-up request has been sent!&quot;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="1185" y="564" width="110" height="67" as="geometry" />
-        </mxCell>
-        <mxCell id="r2B7SsZK2ajT2XGIuIDY-53" value="Approve/deny&lt;div&gt;admin channel&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="1180" y="692.5" width="120" height="60" as="geometry" />
-        </mxCell>
-      </root>
-    </mxGraphModel>
-  </diagram>
+<mxfile host="65bd71144e">
+    <diagram name="Page-1" id="SdW673jrMxk2vKFcSP8q">
+        <mxGraphModel dx="1855" dy="719" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-1" value="Kitty Clan Points Project" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;strokeWidth=1;fontSize=16;" parent="1" vertex="1">
+                    <mxGeometry x="110" y="100" width="360" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-2" value="Flow:&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;- User applies to join the clan after accepting our rules&lt;/div&gt;&lt;div&gt;- Admins have a channel called #new-members where they can approve or deny a request to join.&lt;/div&gt;&lt;div&gt;- On acceptance, user gets a google sheet created&lt;/div&gt;&lt;div&gt;- Users can submit points by supplying a screenshot&lt;/div&gt;&lt;div&gt;- Users can check their points &amp;amp; google sheet&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;" parent="1" vertex="1">
+                    <mxGeometry x="135" y="140" width="310" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" target="r2B7SsZK2ajT2XGIuIDY-8" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="453" y="445" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-3" value="New member" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;rounded=1;" parent="1" vertex="1">
+                    <mxGeometry x="437.5" y="355" width="30" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-8" value="Display an embed with the rules and how points work etc.&lt;br&gt;&lt;br&gt;&quot;Agree and request to Join Clan&quot;&lt;br&gt;Button" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="332.5" y="475" width="240" height="102.5" as="geometry"/>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-10" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" target="r2B7SsZK2ajT2XGIuIDY-8" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="453" y="635" as="sourcePoint"/>
+                        <mxPoint x="465" y="695" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-12" value="#join-clan channel" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;" parent="1" vertex="1">
+                    <mxGeometry x="572.5" y="513.75" width="120" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-13" value="#newmember-yoshe&lt;br&gt;creates a ticket for admins" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;" parent="1" vertex="1">
+                    <mxGeometry x="376.25" y="595" width="150" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-15" value="Limit to 1 applications per user id at a time, so dopa doesn't spam the join button" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontStyle=2;" parent="1" vertex="1">
+                    <mxGeometry x="515" y="667.5" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-17" value="Member&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;id: guid&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;discord_username: string&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;lastupdated: date&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;date_joined: date&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;osrs_names: string[]&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;point_history: Task[]&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;spreadsheet_url: string&lt;/div&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;verticalAlign=top;fontSize=12;rounded=1;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="315" width="170" height="185" as="geometry"/>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-18" value="Entities" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="280" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-19" value="Task&lt;br&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;id: guid&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;screenshot_url: string&lt;/div&gt;auditable_properties&lt;span style=&quot;text-align: left; background-color: initial;&quot;&gt;:&amp;nbsp;&lt;/span&gt;AuditableProperties&lt;div style=&quot;text-align: left;&quot;&gt;date_achieved: date&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;point_amount: int&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;cooldown: time&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;repeatable: boolean&lt;/div&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;rounded=1;" parent="1" vertex="1">
+                    <mxGeometry x="90" y="510.5" width="230" height="192.5" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" style="edgeStyle=none;html=1;" edge="1" parent="1" source="r2B7SsZK2ajT2XGIuIDY-20">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="520" y="840" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="6" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="r2B7SsZK2ajT2XGIuIDY-20" target="2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-20" value="Send welcome message (?)&lt;br&gt;&lt;br&gt;&quot;Tell us about yourself&quot;&lt;br&gt;&lt;br&gt;&quot;An admin will be in touch shortly&quot;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="390" y="642.5" width="122.5" height="135" as="geometry"/>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-22" value="Joining the clan&lt;br&gt;(ticket system)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="435" y="300" width="170" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-23" value="Submitting Points" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="1082.5" y="107.5" width="170" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-26" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="r2B7SsZK2ajT2XGIuIDY-24" target="r2B7SsZK2ajT2XGIuIDY-25" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-24" value="Submit points channel" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="1017.5" y="148" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-27" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="r2B7SsZK2ajT2XGIuIDY-25" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1077.5" y="328" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-25" value="/submit (task) (image)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;" parent="1" vertex="1">
+                    <mxGeometry x="1010" y="248" width="135" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-30" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="r2B7SsZK2ajT2XGIuIDY-28" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1212.5" y="443" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-28" value="Message queue&lt;div&gt;send:&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Member&lt;/div&gt;&lt;div&gt;Task&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;The screenshot_url will be the discord cdn url of the image. Upload to imgur later&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="1010" y="333" width="135" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-31" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="r2B7SsZK2ajT2XGIuIDY-29" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1270" y="368" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-29" value="Process items in queue" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="1212.5" y="408" width="115" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-34" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="r2B7SsZK2ajT2XGIuIDY-32" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1270" y="258" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-32" value="Imgur upload and update screenshot_url" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="1204" y="328" width="132" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" style="edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="r2B7SsZK2ajT2XGIuIDY-35" target="15">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-35" value="Add to their google sheet" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="1218.75" y="198" width="102.5" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-41" value="&lt;div&gt;Create their google sheet&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Disable any other ticket commands&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&quot;Welcome to kitty! here's your google sheet&quot;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;The bot will dm them their sheet and pin it.&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Close ticket after 24 hours&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="733.75" y="840" width="167.5" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-45" value="Rank up request" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="1430" y="295" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-47" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="r2B7SsZK2ajT2XGIuIDY-46" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1490" y="490" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-46" value="Rank up request channel" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="1430" y="387.5" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-49" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="r2B7SsZK2ajT2XGIuIDY-48" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1490" y="570" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-48" value="clicc button" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="1460" y="503" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="r2B7SsZK2ajT2XGIuIDY-51" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1490" y="680" as="targetPoint"/>
+                        <mxPoint x="1490" y="631" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="2" value="/add_points&lt;br&gt;When the user shares their gear etc. admins can manually add points from within the ticket&lt;br&gt;This command only works inside of tickets.&lt;br&gt;" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="840" width="350" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="3" target="8">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="540" y="990" as="sourcePoint"/>
+                        <mxPoint x="490" y="970" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="3" value="/approve_member&lt;br&gt;This command only works inside of tickets" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="460" y="840" width="145" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" style="edgeStyle=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="8" target="r2B7SsZK2ajT2XGIuIDY-41">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="Create User" style="whiteSpace=wrap;html=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" vertex="1" parent="1">
+                    <mxGeometry x="535" y="980" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="Open a rank-up request ticket&lt;br&gt;&lt;br&gt;#rankrequest-yoshe" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="1395" y="575" width="190" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="add the discord role" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="545" y="1010" width="100" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="Admin approve submissions" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="967.5" y="480.5" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="update their discord role too" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="1460" y="707.5" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="Bot DMs the person &quot;Submission approved! you have 6 points." style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="1275" y="100" width="150" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="AuditableProperties&lt;br&gt;&lt;br&gt;created_by&lt;br&gt;date_added&lt;br&gt;edited_by&lt;br&gt;date_edited" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;rounded=1;" vertex="1" parent="1">
+                    <mxGeometry x="140" y="720" width="130" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="Changelog for admins&lt;br&gt;&lt;br&gt;Says who approved or edited things" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="1077.5" y="603" width="250" height="100" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
 </mxfile>
