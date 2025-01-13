@@ -1,4 +1,5 @@
 
+import os
 import discord
 
 class JoinClanView(discord.ui.View):
@@ -8,6 +9,10 @@ class JoinClanView(discord.ui.View):
     @discord.ui.button(label="✅ Agree & Request to Join", style=discord.ButtonStyle.primary, custom_id="join_clan")
     async def join_clan(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.send_message(f"Join clan request for {interaction.user.display_name}", ephemeral=True)
+        # Todo - insert data
+        channel: discord.CategoryChannel = interaction.guild.get_channel(int(os.getenv('NEW_MEMBER_REQUESTS_CATEGORY_ID')))
+        new_ticket: discord.channel = await channel.create_text_channel(name=f"{interaction.user.display_name}")
+        await new_ticket.edit(category=channel)
         
     @discord.ui.button(label="🏆 Rank up request", style=discord.ButtonStyle.secondary, custom_id="rank_up_request")
     async def rank_up_request(self, interaction: discord.Interaction, button: discord.ui.Button):
