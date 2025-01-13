@@ -1,3 +1,4 @@
 discord.py
 python-dotenv
 watchdog
+pymongo==4.6.0
