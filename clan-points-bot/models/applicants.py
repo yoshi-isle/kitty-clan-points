@@ -1,5 +1,9 @@
 class Applicant:
-    def __init__(self, discord_id: int, is_active: bool, ticket_channel_id: int, starter_points: int):
+    def __init__(self,
+                 discord_id: int,
+                 is_active: bool,
+                 ticket_channel_id: int,
+                 starter_points: int):
         self.discord_id = discord_id
         self.is_active = is_active
         self.ticket_channel_id = ticket_channel_id

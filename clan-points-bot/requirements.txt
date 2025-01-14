@@ -3,3 +3,5 @@ python-dotenv
 watchdog
 pymongo
 aiohttp
+gspread
+gspread_formatting

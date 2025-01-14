@@ -28,11 +28,33 @@ class AdminCog(commands.Cog):
                 await interaction.response.send_message(f'No valid ticket found (wrong channel?)')
                 return
             
-            # TODO - Create member record
+            await interaction.response.defer()
+            
+            # Create google sheet for user
+            sheet = self.bot.sheets_service.create_sheet(interaction.user.name)
+            await interaction.followup.send(sheet)
+            await interaction.channel.send("Welcome to the clan! Above is your google sheet to track your points.")
             
         except Exception as e:
             print(f"Error approving request to join the clan: {e}")
-        await interaction.response.send_message(f'Approval')
+    
+    @app_commands.command(name="add_points", description="Add points to the applicant")
+    @app_commands.checks.has_role("Admin")
+    async def add_points(self, interaction: discord.Interaction, amount: int):
+        try:
+            applicant = self.bot.applicants_collection.find_one({"ticket_channel_id": interaction.channel_id})
+            
+            # Check if the administrator is inside a valid new member request ticket
+            if not applicant:
+                await interaction.response.send_message(f'No valid ticket found (wrong channel?)')
+                return
+            
+            # Add points
+            updated_applicant = self.bot.applicants_collection.find_one_and_update({"_id": applicant["_id"]}, {"$inc": {"starter_points": amount}}, return_document=True)
+            await interaction.response.send_message(f'Added {amount} starter points... (total {updated_applicant["starter_points"]})')
+            
+        except Exception as e:
+            print(f"Error closing a user's ticket: {e}")
     
     @app_commands.command(name="close", description="Close this user's ticket and delete the channel")
     @app_commands.checks.has_role("Admin")
@@ -43,6 +65,7 @@ class AdminCog(commands.Cog):
             # Check if the administrator is inside a valid new member request ticket
             if not ticket:
                 await interaction.response.send_message(f'No valid ticket found (wrong channel?)')
+                return
                 
             self.bot.applicants_collection.update_one({"_id": ticket["_id"]}, {"$set": {"is_active": False}})
             await interaction.response.send_message(f'Closing ticket...')
@@ -51,9 +74,17 @@ class AdminCog(commands.Cog):
             
         except Exception as e:
             print(f"Error closing a user's ticket: {e}")
-
     
-    
+    #TODO - Remove for production
+    @app_commands.command(name="clear_db", description="Clear database (for testing)")
+    @app_commands.checks.has_role("Admin")
+    async def clear_db(self, interaction: discord.Interaction):
+        try:
+            self.bot.applicants_collection.delete_many({})
+            await interaction.response.send_message("Cleared applicants collection", ephemeral=True)
+            
+        except Exception as e:
+            print(f"Error deleting all: {e}")
 
 async def setup(bot: commands):
     await bot.add_cog(AdminCog(bot))

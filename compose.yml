@@ -4,7 +4,7 @@ services:
       context: ./clan-points-bot
       dockerfile: Dockerfile
     volumes:
-      - ./clan-points-bot:/bot
+      - ./clan-points-bot:/bot:ro
     command: >
       sh -c "pip install --no-cache-dir -r requirements.txt &&
              watchmedo auto-restart --directory=/bot --pattern=*.py --recursive -- python /bot/bot.py"
