@@ -4,7 +4,7 @@ from discord.ext import commands
 from dotenv import load_dotenv
 from pymongo import MongoClient
 
-from join_clan_view import JoinClanView
+from views.join_clan_view import JoinClanView
 
 class Bot(commands.Bot):
     def __init__(self):
