@@ -37,9 +37,9 @@ class AdminCog(commands.Cog):
         except Exception as e:
             print(f"Error closing a user's ticket: {e}")
             
-    @app_commands.command(name="approve", description="Approve request to join the clan")
+    @app_commands.command(name="approve_new_member", description="Approve request to join the clan")
     @app_commands.checks.has_role("Admin")
-    async def approve(self, interaction: discord.Interaction):
+    async def approve_new_member(self, interaction: discord.Interaction):
         try:
             ticket = self.bot.applicants_collection.find_one(({"ticket_channel_id": interaction.channel_id}))
             
@@ -118,6 +118,21 @@ class AdminCog(commands.Cog):
             
         except Exception as e:
             print(f"Error deleting all: {e}")
+    
+    @app_commands.command(name="view_sheet", description="View a user's clan points sheet")
+    @app_commands.checks.has_role("Admin")
+    async def view_sheet(self, interaction: discord.Interaction, member: discord.Member):
+        try:
+            # Ensure the member exists in the collection
+            existing_member: discord.channel = self.bot.members_collection.find_one({"discord_id": member.id, "is_active": True})
+            if not existing_member:
+                await interaction.response.send_message(f"This member doesn't have a clan profile", ephemeral=True)
+                return
+            
+            await interaction.response.send_message(existing_member["sheet_url"], ephemeral=True)
+            
+        except Exception as e:
+            print(f"Error getting a user's sheet: {e}")
 
 async def setup(bot: commands):
     await bot.add_cog(AdminCog(bot))
