@@ -1,0 +1,16 @@
+{
+    "ranks": [
+        {
+            "id": 0,
+            "point_amount": 0,
+            "rank_name": "Owner",
+            "rank_emoji_id": ""
+        },
+        {
+            "id": 1,
+            "point_amount": 0,
+            "rank_name": "Deputy Owner",
+            "rank_emoji_id": ""
+        }
+    ]
+}

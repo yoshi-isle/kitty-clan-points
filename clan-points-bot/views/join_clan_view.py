@@ -27,6 +27,7 @@ class JoinClanView(discord.ui.View):
             new_ticket: discord.channel = await channel.create_text_channel(name=f"{interaction.user.display_name}")
             await interaction.response.send_message(f"Welcome! Please finish your application here: {new_ticket.mention}", ephemeral=True)
             await new_ticket.edit(category=channel)
+            await new_ticket.send(f"Welcome {interaction.user.mention}! Please share the following information:\n* Your Runescape name(s)\n* Meow")
             
             # Add applicant to the applicants collection
             applicant = Applicant(

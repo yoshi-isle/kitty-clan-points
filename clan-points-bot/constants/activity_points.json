@@ -1,0 +1,16 @@
+{
+    "tasks": [
+        {
+            "id": 0,
+            "name": "Donating 50m to Clan Coffer (single donation)",
+            "points_awarded": 1,
+            "cooldown_days": 0
+        },
+        {
+            "id": 1,
+            "name": "Joining a casual event",
+            "points_awarded": 1,
+            "cooldown_days": 1
+        }
+    ]
+}
