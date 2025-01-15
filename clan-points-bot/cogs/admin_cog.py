@@ -4,6 +4,8 @@ from discord.ext import commands
 from discord import app_commands
 from views.join_clan_view import JoinClanView
 from bot import Bot
+from models import Member, TaskCompletion
+from datetime import datetime
 
 class AdminCog(commands.Cog):
     def __init__(self, bot: Bot):
@@ -16,27 +18,6 @@ class AdminCog(commands.Cog):
         embed.set_author(name="Join our clan!")
         await interaction.channel.send(embed=embed, view=JoinClanView(self.bot))
         await interaction.response.send_message(f'Join clan embed posted', ephemeral=True)
-        
-    @app_commands.command(name="approve", description="Approve request to join the clan")
-    @app_commands.checks.has_role("Admin")
-    async def approve(self, interaction: discord.Interaction):
-        try:
-            ticket = self.bot.applicants_collection.find_one(({"ticket_channel_id": interaction.channel_id}))
-            
-            # Check if the administrator is inside a valid new member request ticket
-            if not ticket:
-                await interaction.response.send_message(f'No valid ticket found (wrong channel?)')
-                return
-            
-            await interaction.response.defer()
-            
-            # Create google sheet for user
-            sheet = self.bot.sheets_service.create_sheet(interaction.user.name)
-            await interaction.followup.send(sheet)
-            await interaction.channel.send("Welcome to the clan! Above is your google sheet to track your points.")
-            
-        except Exception as e:
-            print(f"Error approving request to join the clan: {e}")
     
     @app_commands.command(name="add_points", description="Add points to the applicant")
     @app_commands.checks.has_role("Admin")
@@ -55,19 +36,69 @@ class AdminCog(commands.Cog):
             
         except Exception as e:
             print(f"Error closing a user's ticket: {e}")
-    
-    @app_commands.command(name="close", description="Close this user's ticket and delete the channel")
+            
+    @app_commands.command(name="approve", description="Approve request to join the clan")
     @app_commands.checks.has_role("Admin")
-    async def close(self, interaction: discord.Interaction):
+    async def approve(self, interaction: discord.Interaction):
         try:
-            ticket = self.bot.applicants_collection.find_one({"ticket_channel_id": interaction.channel_id})
+            ticket = self.bot.applicants_collection.find_one(({"ticket_channel_id": interaction.channel_id}))
             
             # Check if the administrator is inside a valid new member request ticket
             if not ticket:
                 await interaction.response.send_message(f'No valid ticket found (wrong channel?)')
                 return
+            
+            # Create google sheet for user
+            await interaction.response.defer()
+            sheet = self.bot.sheets_service.create_sheet(interaction.user.name)
+            await interaction.followup.send(sheet)
+            
+            # Create member DB
+            member = Member(discord_id = interaction.user.id,
+                 is_active = True,
+                 date_joined = datetime.now(),
+                 osrs_names = [],
+                 task_history = [],
+                 sheet_url = sheet)
+            
+            self.bot.members_collection.insert_one(member.to_dict())
+            
+            await interaction.channel.send("Welcome to the clan! Above is your google sheet to track your points.")
+            
+        except Exception as e:
+            print(f"Error approving request to join the clan: {e}")
+            
+    @app_commands.command(name="close_application", description="Close this user's new member request ticket and delete the channel")
+    @app_commands.checks.has_role("Admin")
+    async def close_application(self, interaction: discord.Interaction):
+        try:
+            ticket = self.bot.applicants_collection.find_one({"ticket_channel_id": interaction.channel_id})
+            
+            # Check if the administrator is inside a valid new member request ticket
+            if not ticket:
+                await interaction.response.send_message(f'No valid new member ticket found (wrong channel or command?)', ephemeral=True)
+                return
                 
             self.bot.applicants_collection.update_one({"_id": ticket["_id"]}, {"$set": {"is_active": False}})
+            await interaction.response.send_message(f'Closing ticket...')
+            sleep(100)
+            await interaction.channel.delete()
+            
+        except Exception as e:
+            print(f"Error closing a user's ticket: {e}")
+    
+    @app_commands.command(name="close_rankup_request", description="Close this user's rank-up request ticket and delete the channel")
+    @app_commands.checks.has_role("Admin")
+    async def close_rank_up_request(self, interaction: discord.Interaction):
+        try:
+            ticket = self.bot.rankuprequests_collection.find_one({"ticket_channel_id": interaction.channel_id})
+            
+            # Check if the administrator is inside a valid rank up request request ticket
+            if not ticket:
+                await interaction.response.send_message(f'No valid rank up request ticket found (wrong channel or command?)', ephemeral=True)
+                return
+                
+            self.bot.rankuprequests_collection.update_one({"_id": ticket["_id"]}, {"$set": {"is_active": False}})
             await interaction.response.send_message(f'Closing ticket...')
             sleep(100)
             await interaction.channel.delete()
@@ -81,7 +112,9 @@ class AdminCog(commands.Cog):
     async def clear_db(self, interaction: discord.Interaction):
         try:
             self.bot.applicants_collection.delete_many({})
-            await interaction.response.send_message("Cleared applicants collection", ephemeral=True)
+            self.bot.members_collection.delete_many({})
+            self.bot.rankuprequests_collection.delete_many({})
+            await interaction.response.send_message("Cleared applicants, members, and rank up request collection", ephemeral=True)
             
         except Exception as e:
             print(f"Error deleting all: {e}")

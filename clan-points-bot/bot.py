@@ -15,9 +15,12 @@ class Bot(commands.Bot):
         super().__init__(command_prefix="!", intents=intents)
         self.client = MongoClient(os.getenv('MONGO_CONNECTION_STRING'))
         self.sheets_service = GoogleSheetsService()
-        self.db = self.client[os.getenv('MONGO_DATABASE_NAME')] 
+        # TODO - Move these
+        self.db = self.client[os.getenv('MONGO_DATABASE_NAME')]
         self.applicants_collection = self.db[os.getenv('MONGO_APPLICANTS_COLLECTION_NAME')]
-        
+        self.members_collection = self.db[os.getenv('MONGO_MEMBERS_COLLECTION_NAME')]
+        self.rankuprequests_collection = self.db[os.getenv('MONGO_RANKUPREQUESTS_COLLECTION_NAME')]
+
     async def setup_hook(self) -> None:
         self.add_view(JoinClanView(self))
         for cog in ["cogs.admin_cog", "cogs.user_cog"]:
