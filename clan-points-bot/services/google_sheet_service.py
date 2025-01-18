@@ -3,6 +3,7 @@ import gspread
 from gspread_formatting import *
 import json
 
+
 class GoogleSheetsService:
     def __init__(self):
         # Get the directory where this script is located
@@ -24,14 +25,14 @@ class GoogleSheetsService:
 
         try:
             new_sheet = self.client.create(discord_name)
-            new_sheet.share(os.getenv('SHEETS_GMAIL'), 'user', 'writer')
-            new_sheet.share(None, 'anyone', 'reader')
+            new_sheet.share(os.getenv("SHEETS_GMAIL"), "user", "writer")
+            new_sheet.share(None, "anyone", "reader")
 
             worksheet = new_sheet.get_worksheet(0)
-            
+
             worksheet.update_title("Clan Points")
-            worksheet.update_cell(1,1,f"{discord_name}'s Clan Profile")
-            set_column_width(worksheet, 'A', 240)
+            worksheet.update_cell(1, 1, f"{discord_name}'s Clan Profile")
+            set_column_width(worksheet, "A", 240)
             return new_sheet.url
 
         except Exception as e:
