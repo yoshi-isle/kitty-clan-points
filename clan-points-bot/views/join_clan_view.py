@@ -1,6 +1,7 @@
 import os
 import discord
 from models import Applicant, RankUpRequest
+from views import ApplicantView
 
 class JoinClanView(discord.ui.View):
     def __init__(self, bot):
@@ -13,7 +14,11 @@ class JoinClanView(discord.ui.View):
             # Prevent ticket creation if their user is already in the applicants collection
             existing_applicant: discord.channel = self.bot.applicants_collection.find_one({"discord_id": interaction.user.id, "is_active": True})
             if existing_applicant:
-                await interaction.response.send_message(f"You already have an open application here: {interaction.guild.get_channel(existing_applicant['ticket_channel_id']).mention}", ephemeral=True)
+                existing_ticket = interaction.guild.get_channel(existing_applicant['ticket_channel_id'])
+                if existing_ticket:
+                    await interaction.response.send_message(f"You already have an open application here: {interaction.guild.get_channel(existing_applicant['ticket_channel_id']).mention}", ephemeral=True)
+                    return
+                await interaction.response.send_message(f"Something went wrong. Please contact an admin", ephemeral=True)
                 return
             
             # Prevent ticket creation if their user is already in the members collection
@@ -49,7 +54,11 @@ class JoinClanView(discord.ui.View):
                 is_active=True,
                 ticket_channel_id = new_ticket.id,
                 starter_points = 0,
-                application_embed_message_id=application_embed_message.id)
+                application_embed_message_id=application_embed_message.id,
+                survey_q1= '',
+                survey_q2='',
+                survey_q3=''
+                )
             self.bot.applicants_collection.insert_one(applicant.to_dict())
         except Exception as e:
             print(f"Error: {e}")

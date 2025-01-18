@@ -39,6 +39,19 @@ class QuestionModal(discord.ui.Modal, title="Clan Application"):
             message = await interaction.channel.fetch_message(
                 applicant_record["application_embed_message_id"]
             )
+
+            # Update applicant record
+            self.bot.applicants_collection.update_one(
+                {"discord_id": interaction.user.id},
+                {
+                    "$set": {
+                        "survey_q1": self.question1.value,
+                        "survey_q2": self.question2.value,
+                        "survey_q3": self.question3.value,
+                    }
+                },
+            )
+
             # Edit the application
             embed = message.embeds[0] if message.embeds else None
             if embed:
@@ -61,7 +74,7 @@ class QuestionModal(discord.ui.Modal, title="Clan Application"):
                     inline=False,
                 )
                 await message.edit(embed=embed)
-            # Add this line to close the modal and show a confirmation message
+
             await interaction.response.send_message(
                 "Your application has been updated!", ephemeral=True
             )
