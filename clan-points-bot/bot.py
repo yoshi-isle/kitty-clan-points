@@ -6,6 +6,7 @@ from pymongo import MongoClient
 from services import GoogleSheetsService
 
 from views.join_clan_view import JoinClanView
+from views.applicant_view import ApplicantView
 
 class Bot(commands.Bot):
     def __init__(self):
@@ -14,7 +15,7 @@ class Bot(commands.Bot):
         intents.message_content = True
         super().__init__(command_prefix="!", intents=intents)
         self.client = MongoClient(os.getenv('MONGO_CONNECTION_STRING'))
-        self.sheets_service = GoogleSheetsService()
+        self.sheets_service = GoogleSheetsService() 
         # TODO - Move these
         self.db = self.client[os.getenv('MONGO_DATABASE_NAME')]
         self.applicants_collection = self.db[os.getenv('MONGO_APPLICANTS_COLLECTION_NAME')]
@@ -22,7 +23,11 @@ class Bot(commands.Bot):
         self.rankuprequests_collection = self.db[os.getenv('MONGO_RANKUPREQUESTS_COLLECTION_NAME')]
 
     async def setup_hook(self) -> None:
+        # Persist views
         self.add_view(JoinClanView(self))
+        self.add_view(ApplicantView(self))
+        
+        # Load cogs
         for cog in ["cogs.admin_cog", "cogs.user_cog"]:
             await self.load_extension(cog)
             print(cog, "loaded")

@@ -21,20 +21,35 @@ class JoinClanView(discord.ui.View):
             if existing_member:
                 await interaction.response.send_message(f"You're already in the clan!", ephemeral=True)
                 return
-             
+            
             # Create channel for new applicant
             channel: discord.CategoryChannel = interaction.guild.get_channel(int(os.getenv('NEW_MEMBER_REQUESTS_CATEGORY_ID')))
             new_ticket: discord.channel = await channel.create_text_channel(name=f"{interaction.user.display_name}")
             await interaction.response.send_message(f"Welcome! Please finish your application here: {new_ticket.mention}", ephemeral=True)
             await new_ticket.edit(category=channel)
-            await new_ticket.send(f"Welcome {interaction.user.mention}! Please share the following information:\n* Your Runescape name(s)\n* Meow")
+            
+            # Create application embed and send applicant view
+            application_embed = discord.Embed()
+            application_embed.set_author(name="Tanjiro's Application", icon_url=interaction.user.avatar.url)
+            application_embed.add_field(name="RuneScape Name(s)",
+                            value="``` ```",
+                            inline=False)
+            application_embed.add_field(name="How long have you been playing?",
+                            value="``` ```",
+                            inline=False)
+            application_embed.add_field(name="Why do you want to join our clan?",
+                            value="``` ```",
+                            inline=False)
+            application_embed.set_footer(text="discord.gg/kittycats")
+            application_embed_message: discord.Message = await new_ticket.send(embed=application_embed, view=ApplicantView(self.bot))
             
             # Add applicant to the applicants collection
             applicant = Applicant(
                 discord_id = interaction.user.id,
                 is_active=True,
                 ticket_channel_id = new_ticket.id,
-                starter_points = 0)
+                starter_points = 0,
+                application_embed_message_id=application_embed_message.id)
             self.bot.applicants_collection.insert_one(applicant.to_dict())
         except Exception as e:
             print(f"Error: {e}")
