@@ -118,13 +118,3 @@ class ApplicantView(discord.ui.View):
 
         modal = QuestionModal(self.bot, existing_answers)
         await interaction.response.send_modal(modal)
-
-    @discord.ui.button(
-        label="✅(Admin) Approve",
-        style=discord.ButtonStyle.secondary,
-        custom_id="approve_member",
-    )
-    async def approve_member(
-        self, interaction: discord.Interaction, button: discord.ui.Button
-    ):
-        await interaction.response.send_message(".")

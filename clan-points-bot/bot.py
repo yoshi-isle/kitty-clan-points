@@ -7,6 +7,7 @@ from services import GoogleSheetsService
 
 from views.join_clan_view import JoinClanView
 from views.applicant_view import ApplicantView
+from views.applicant_admin_interface_view import ApplicantAdminView
 
 
 class Bot(commands.Bot):
@@ -31,6 +32,7 @@ class Bot(commands.Bot):
         # Persist views
         self.add_view(JoinClanView(self))
         self.add_view(ApplicantView(self))
+        self.add_view(ApplicantAdminView(self))
 
         # Load cogs
         for cog in ["cogs.admin_cog", "cogs.user_cog"]:

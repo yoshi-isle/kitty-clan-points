@@ -1,7 +1,9 @@
 import os
 import discord
 from models import Applicant, RankUpRequest
-from views import ApplicantView
+from views.applicant_view import ApplicantView
+from views.applicant_admin_interface_view import ApplicantAdminView
+from views.statuses import Statuses
 
 class JoinClanView(discord.ui.View):
     def __init__(self, bot):
@@ -33,9 +35,22 @@ class JoinClanView(discord.ui.View):
             await interaction.response.send_message(f"Welcome! Please finish your application here: {new_ticket.mention}", ephemeral=True)
             await new_ticket.edit(category=channel)
             
+            # Create the admin interface
+            admin_embed = discord.Embed()
+            admin_embed.set_author(name="Admin Interface")
+            admin_embed.color = discord.Color.dark_red()
+            admin_embed.add_field(name="Application Status",
+                value=f"```ansi{Statuses.PENDING_STATUS}```",
+                inline=False)
+            admin_embed.set_footer(text="This form is for administrative use only")
+            await new_ticket.send(embed=admin_embed, view=ApplicantAdminView(self.bot))
+
+            # Send a welcome message
+            await new_ticket.send(f"# Clan Member Application\nWelcome {interaction.user.mention}! We are thrilled you want to join our growing community!\nPlease start off by clicking on the **Answer questions** button below to tell us about yourself.\nIf you wish to claim legacy points, you may share the following info:\n* meow\nAn admin will be with you shortly")
+            
             # Create application embed and send applicant view
-            application_embed = discord.Embed()
-            application_embed.set_author(name="Tanjiro's Application", icon_url=interaction.user.avatar.url)
+            application_embed = discord.Embed(description="")
+            application_embed.set_author(name=f"{interaction.user.display_name}'s Application", icon_url=interaction.user.avatar.url)
             application_embed.add_field(name="RuneScape Name(s)",
                             value="``` ```",
                             inline=False)
@@ -55,7 +70,7 @@ class JoinClanView(discord.ui.View):
                 ticket_channel_id = new_ticket.id,
                 starter_points = 0,
                 application_embed_message_id=application_embed_message.id,
-                survey_q1= '',
+                survey_q1='',
                 survey_q2='',
                 survey_q3=''
                 )
