@@ -3,14 +3,15 @@ import discord
 from models import Applicant, RankUpRequest
 from views.applicant_view import ApplicantView
 from views.applicant_admin_interface_view import ApplicantAdminView
-from views.statuses import Statuses
+from embeds.join_clan_embeds import JoinClanEmbeds
+
 
 class JoinClanView(discord.ui.View):
     def __init__(self, bot):
         super().__init__(timeout=None)
         self.bot = bot
     
-    @discord.ui.button(label="✅ Agree & Request to Join", style=discord.ButtonStyle.primary, custom_id="join_clan")
+    @discord.ui.button(label="✅ Accept rules & apply to join", style=discord.ButtonStyle.primary, custom_id="join_clan")
     async def join_clan(self, interaction: discord.Interaction, button: discord.ui.Button):
         try:
             # Prevent ticket creation if their user is already in the applicants collection
@@ -36,89 +37,28 @@ class JoinClanView(discord.ui.View):
             await new_ticket.edit(category=channel)
             
             # Create the admin interface
-            admin_embed = discord.Embed()
-            admin_embed.set_author(name="Admin Interface")
-            admin_embed.color = discord.Color.dark_red()
-            admin_embed.add_field(name="Application Status",
-                value=f"```ansi{Statuses.PENDING_STATUS}```",
-                inline=False)
-            admin_embed.set_footer(text="This form is for administrative use only")
-            await new_ticket.send(embed=admin_embed, view=ApplicantAdminView(self.bot))
+            admin_interface_message: discord.Message = await new_ticket.send(embed = await JoinClanEmbeds.get_admin_interface_embed(), view=ApplicantAdminView(self.bot))
 
             # Send a welcome message
-            await new_ticket.send(f"# Clan Member Application\nWelcome {interaction.user.mention}! We are thrilled you want to join our growing community!\nPlease start off by clicking on the **Answer questions** button below to tell us about yourself.\nIf you wish to claim legacy points, you may share the following info:\n* meow\nAn admin will be with you shortly")
+            await new_ticket.send(f"# Clan Member Application\nWelcome {interaction.user.mention}! We are thrilled you want to join our growing community.\n\nPlease click the button below to answer some questions.\n\nIf you wish to claim legacy points, you may share the following info:\n* meow\n\nAn admin will be with you shortly.")
             
             # Create application embed and send applicant view
-            application_embed = discord.Embed(description="")
-            application_embed.set_author(name=f"{interaction.user.display_name}'s Application", icon_url=interaction.user.avatar.url)
-            application_embed.add_field(name="RuneScape Name(s)",
-                            value="``` ```",
-                            inline=False)
-            application_embed.add_field(name="How long have you been playing?",
-                            value="``` ```",
-                            inline=False)
-            application_embed.add_field(name="Why do you want to join our clan?",
-                            value="``` ```",
-                            inline=False)
-            application_embed.set_footer(text="discord.gg/kittycats")
-            application_embed_message: discord.Message = await new_ticket.send(embed=application_embed, view=ApplicantView(self.bot))
+            application_embed_message: discord.Message = await new_ticket.send(embed = await JoinClanEmbeds.get_join_clan_embed(interaction.user), view=ApplicantView(self.bot))
             
             # Add applicant to the applicants collection
             applicant = Applicant(
                 discord_id = interaction.user.id,
                 is_active=True,
+                application_valid=False,
                 ticket_channel_id = new_ticket.id,
-                starter_points = 0,
+                legacy_points = 0,
                 application_embed_message_id=application_embed_message.id,
+                admin_interface_message_id=admin_interface_message.id,
                 survey_q1='',
                 survey_q2='',
-                survey_q3=''
+                survey_q3='',
+                survey_q4=''
                 )
             self.bot.applicants_collection.insert_one(applicant.to_dict())
         except Exception as e:
             print(f"Error: {e}")
-        
-    @discord.ui.button(label="🏆 Rank up request", style=discord.ButtonStyle.secondary, custom_id="rank_up_request")
-    async def rank_up_request(self, interaction: discord.Interaction, button: discord.ui.Button):
-        try:
-            # Prevent ticket creation if their user is already in the members collection
-            existing_member: discord.channel = self.bot.members_collection.find_one({"discord_id": interaction.user.id, "is_active": True})
-            if not existing_member:
-                await interaction.response.send_message("You don't have a clan profile. If you're interested, please apply!", ephemeral=True)
-                return
-            
-            # Prevent ticket creation if their user is already in the rank up requests collection
-            existing_applicant: discord.channel = self.bot.rankuprequests_collection.find_one({"discord_id": interaction.user.id, "is_active": True})
-            if existing_applicant:
-                await interaction.response.send_message(f"You already have a rank-up request application here: {interaction.guild.get_channel(existing_applicant['ticket_channel_id']).mention}", ephemeral=True)
-                return
-            
-            # Create channels for new rank up request
-            channel: discord.CategoryChannel = interaction.guild.get_channel(int(os.getenv('RANK_UP_REQUESTS_CATEGORY_ID')))
-            new_ticket: discord.channel = await channel.create_text_channel(name=f"{interaction.user.display_name}")
-            await interaction.response.send_message(f"Please request your rank-up here: {new_ticket.mention}", ephemeral=True)
-            await new_ticket.edit(category=channel)
-            
-            # Add applicant to the rankuprequests collection
-            applicant = RankUpRequest(
-                discord_id = interaction.user.id,
-                is_active=True,
-                ticket_channel_id = new_ticket.id)
-            
-            self.bot.rankuprequests_collection.insert_one(applicant.to_dict())
-            
-        except Exception as e:
-            print(f"Error processing a rank-up request: {e}")
-        await interaction.response.send_message(f"Rank-up request for {interaction.user.display_name}", ephemeral=True)
-        
-    @discord.ui.button(label="🧾 View my points", style=discord.ButtonStyle.green, custom_id="my_spreadsheet")
-    async def my_spreadsheet(self, interaction: discord.Interaction, button: discord.ui.Button):
-        try:
-            # Check if clan member exists
-            member = self.bot.members_collection.find_one({"discord_id": interaction.user.id, "is_active": True})
-            if not member:
-                await interaction.response.send_message("You don't have a clan profile. If you're interested, please apply!", ephemeral=True)
-                return
-            await interaction.response.send_message(f"Here's your clan sheet:\n{member["sheet_url"]}", ephemeral=True)
-        except Exception as e:
-            print(f"Error viewing a user's points: {e}")

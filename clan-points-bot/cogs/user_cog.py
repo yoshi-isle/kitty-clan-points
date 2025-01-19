@@ -7,14 +7,6 @@ class UserCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @app_commands.command(name="ping", description="Check the bot's latency")
-    async def ping(self, interaction: discord.Interaction):
-        records = list(self.bot.applicants_collection.find())
-        print("records: ", records)
-        await interaction.response.send_message(
-            f"Pong! Latency: {round(self.bot.latency * 1000)}ms"
-        )
-
     @app_commands.command(name="submit", description="Submit points")
     async def submit(
         self, interaction: discord.Interaction, task: str, img: discord.Attachment
