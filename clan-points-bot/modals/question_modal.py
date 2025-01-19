@@ -89,7 +89,7 @@ class QuestionModal(discord.ui.Modal, title="Clan Application"):
                 application_embed.set_field_at(
                     3,
                     name="Why do you want to join our clan?",
-                    value=f"```{self.question3.value}```",
+                    value=f"```{self.question4.value}```",
                     inline=False,
                 )
                 await application_message.edit(embed=application_embed)
