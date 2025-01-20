@@ -30,6 +30,10 @@ class JoinClanView(discord.ui.View):
             # Create channel for new applicant
             channel: discord.CategoryChannel=interaction.guild.get_channel(int(os.getenv('NEW_MEMBER_REQUESTS_CATEGORY_ID')))
             new_ticket: discord.channel=await channel.create_text_channel(name=f"{interaction.user.display_name}")
+            
+            # Give the applicant access to the channel
+            await new_ticket.set_permissions(interaction.user, read_messages=True, send_messages=True)
+            
             await interaction.response.send_message(f"Please fill out your application here: {new_ticket.mention}", ephemeral=True)
             await new_ticket.edit(category=channel)
             
