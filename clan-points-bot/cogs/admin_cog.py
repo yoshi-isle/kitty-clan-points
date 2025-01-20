@@ -4,7 +4,7 @@ from discord import app_commands
 from views.join_clan_view import JoinClanView
 from views.welcome_view import WelcomeView
 from embeds.join_clan_embeds import JoinClanEmbeds
-
+from models.clan_member import ClanMember
 
 class AdminCog(commands.Cog):
     def __init__(self, bot):
@@ -23,7 +23,8 @@ class AdminCog(commands.Cog):
     async def clear_db(self, interaction: discord.Interaction):
         try:
             self.bot.db.applicants_collection.delete_many({})
-            await interaction.response.send_message("Cleared applicants collection", ephemeral=True,)
+            self.bot.db.members_collection.delete_many({})
+            await interaction.response.send_message("Cleared applicants and members collection", ephemeral=True,)
             
             ticket_category = discord.utils.get(interaction.guild.categories, name="new member requests")
             if ticket_category:
@@ -38,12 +39,12 @@ class AdminCog(commands.Cog):
     async def view_sheet(self, interaction: discord.Interaction, member: discord.Member):
         try:
             # Ensure the member exists in the collection
-            existing_member: discord.channel=self.bot.members_collection.find_one({"discord_id": member.id, "is_active": True})
+            existing_member: ClanMember=self.bot.clan_member_service.get_member_by_discord_id(member.id)
             if not existing_member:
                 await interaction.response.send_message(f"This member doesn't have a clan profile", ephemeral=True)
                 return
 
-            await interaction.response.send_message(existing_member["sheet_url"], ephemeral=True)
+            await interaction.response.send_message(existing_member.google_sheet_url, ephemeral=True)
 
         except Exception as e:
             print(f"Error getting a user's sheet: {e}")

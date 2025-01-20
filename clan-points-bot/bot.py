@@ -2,9 +2,10 @@ import discord
 import os
 from discord.ext import commands
 from dotenv import load_dotenv
-from pymongo import MongoClient
+
 from services.google_sheet_service import GoogleSheetsService
 from services.applicant_service import ApplicantService
+from services.clan_member_service import ClanMemberService
 
 from views.join_clan_view import JoinClanView
 from views.applicant_view import ApplicantView
@@ -29,6 +30,7 @@ class Bot(commands.Bot):
 
         # Setup services
         self.sheets_service=GoogleSheetsService()
+        self.clan_member_service=ClanMemberService(self.db)
         self.applicant_service=ApplicantService(self.db)
 
     async def setup_hook(self) -> None:

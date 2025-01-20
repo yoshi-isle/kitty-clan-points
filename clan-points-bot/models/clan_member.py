@@ -1,14 +1,25 @@
 class ClanMember:
-    def __init__(self, discord_id: str, is_active: bool = False, points: int = 0, point_history: list = None, google_sheet_url: str = None, survey_q1: str = None, survey_q2: str = None, survey_q3: str = None, survey_q4: str = None):
-        self.discord_id = discord_id
-        self.is_active = is_active
-        self.points = points
-        self.point_history = point_history if point_history else []
-        self.google_sheet_url = google_sheet_url
-        self.survey_q1 = survey_q1
-        self.survey_q2 = survey_q2
-        self.survey_q3 = survey_q3
-        self.survey_q4 = survey_q4
+    def __init__(self, data: dict = None, discord_id: str = None, is_active: bool = False, points: int = 0, point_history: list = None, google_sheet_url: str = None, survey_q1: str = None, survey_q2: str = None, survey_q3: str = None, survey_q4: str = None):
+        if data:
+            self.discord_id = data.get('discord_id')
+            self.is_active = data.get('is_active')
+            self.points = data.get('points')
+            self.point_history = data.get('point_history')
+            self.google_sheet_url = data.get('google_sheet_url')
+            self.survey_q1 = data.get('survey_q1')
+            self.survey_q2 = data.get('survey_q2')
+            self.survey_q3 = data.get('survey_q3')
+            self.survey_q4 = data.get('survey_q4')        
+        else:
+            self.discord_id = discord_id
+            self.is_active = is_active
+            self.points = points
+            self.point_history = point_history if point_history else []
+            self.google_sheet_url = google_sheet_url
+            self.survey_q1 = survey_q1
+            self.survey_q2 = survey_q2
+            self.survey_q3 = survey_q3
+            self.survey_q4 = survey_q4        
 
     def to_dict(self):
         return {
