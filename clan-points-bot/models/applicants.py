@@ -13,17 +13,17 @@ class Applicant:
         survey_q3: str,
         survey_q4: str,
     ):
-        self.discord_id = discord_id
-        self.is_active = is_active
-        self.ticket_channel_id = ticket_channel_id
-        self.legacy_points = legacy_points
-        self.application_embed_message_id = application_embed_message_id
-        self.admin_interface_message_id = admin_interface_message_id
-        self.survey_q1 = survey_q1
-        self.survey_q2 = survey_q2
-        self.survey_q3 = survey_q3
-        self.survey_q4 = survey_q4
-        self.application_valid = application_valid
+        self.discord_id=discord_id
+        self.is_active=is_active
+        self.ticket_channel_id=ticket_channel_id
+        self.legacy_points=legacy_points
+        self.application_embed_message_id=application_embed_message_id
+        self.admin_interface_message_id=admin_interface_message_id
+        self.survey_q1=survey_q1
+        self.survey_q2=survey_q2
+        self.survey_q3=survey_q3
+        self.survey_q4=survey_q4
+        self.application_valid=application_valid
 
     def to_dict(self):
         return {

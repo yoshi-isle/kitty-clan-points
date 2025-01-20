@@ -15,15 +15,15 @@ class Member:
         survey_q2: str,
         survey_q3: str,
     ):
-        self.discord_id = discord_id
-        self.is_active = is_active
-        self.date_joined = date_joined
-        self.wom_account_ids = wom_account_ids
-        self.task_history = task_history
-        self.sheet_url = sheet_url
-        self.survey_q1 = survey_q1
-        self.survey_q2 = survey_q2
-        self.survey_q3 = survey_q3
+        self.discord_id=discord_id
+        self.is_active=is_active
+        self.date_joined=date_joined
+        self.wom_account_ids=wom_account_ids
+        self.task_history=task_history
+        self.sheet_url=sheet_url
+        self.survey_q1=survey_q1
+        self.survey_q2=survey_q2
+        self.survey_q3=survey_q3
 
     def to_dict(self):
         return {

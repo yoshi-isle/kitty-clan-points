@@ -13,20 +13,16 @@ from views.applicant_admin_interface_view import ApplicantAdminView
 class Bot(commands.Bot):
     def __init__(self):
         load_dotenv()
-        intents = discord.Intents.all()
-        intents.message_content = True
+        intents=discord.Intents.all()
+        intents.message_content=True
         super().__init__(command_prefix="!", intents=intents)
-        self.client = MongoClient(os.getenv("MONGO_CONNECTION_STRING"))
-        self.sheets_service = GoogleSheetsService()
+        self.client=MongoClient(os.getenv("MONGO_CONNECTION_STRING"))
+        self.sheets_service=GoogleSheetsService()
         # TODO - Move these
-        self.db = self.client[os.getenv("MONGO_DATABASE_NAME")]
-        self.applicants_collection = self.db[
-            os.getenv("MONGO_APPLICANTS_COLLECTION_NAME")
-        ]
-        self.members_collection = self.db[os.getenv("MONGO_MEMBERS_COLLECTION_NAME")]
-        self.rankuprequests_collection = self.db[
-            os.getenv("MONGO_RANKUPREQUESTS_COLLECTION_NAME")
-        ]
+        self.db=self.client[os.getenv("MONGO_DATABASE_NAME")]
+        self.applicants_collection=self.db[os.getenv("MONGO_APPLICANTS_COLLECTION_NAME")]
+        self.members_collection=self.db[os.getenv("MONGO_MEMBERS_COLLECTION_NAME")]
+        self.rankuprequests_collection=self.db[os.getenv("MONGO_RANKUPREQUESTS_COLLECTION_NAME")]
 
     async def setup_hook(self) -> None:
         # Persist views
@@ -44,7 +40,7 @@ class Bot(commands.Bot):
         print(f"{self.user} has connected to Discord!")
 
 
-bot = Bot()
+bot=Bot()
 
 if __name__ == "__main__":
     bot.run(os.getenv("DISCORD_TOKEN"))

@@ -5,12 +5,10 @@ from discord import app_commands
 
 class UserCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
-        self.bot = bot
+        self.bot=bot
 
     @app_commands.command(name="submit", description="Submit points")
-    async def submit(
-        self, interaction: discord.Interaction, task: str, img: discord.Attachment
-    ):
+    async def submit(self, interaction: discord.Interaction, task: str, img: discord.Attachment):
         await interaction.response.send_message(f"Submit not implemented")
 
 

@@ -9,10 +9,10 @@ class TaskCompletion:
         date_achieved: date,
         point_amount: int,
     ):
-        self.screenshot_url = screenshot_url
-        self.task_name = task_name
-        self.date_achieved = date_achieved
-        self.point_amount = point_amount
+        self.screenshot_url=screenshot_url
+        self.task_name=task_name
+        self.date_achieved=date_achieved
+        self.point_amount=point_amount
 
     def to_dict(self):
         return {
