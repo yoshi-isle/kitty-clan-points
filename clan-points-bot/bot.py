@@ -10,6 +10,7 @@ from views.join_clan_view import JoinClanView
 from views.applicant_view import ApplicantView
 from views.applicant_admin_interface_view import ApplicantAdminView
 from views.welcome_view import WelcomeView
+from views.close_ticket_view import CloseTicketView
 
 from database import Database
 
@@ -36,6 +37,7 @@ class Bot(commands.Bot):
         self.add_view(ApplicantView(self))
         self.add_view(WelcomeView(self))
         self.add_view(ApplicantAdminView(self))
+        self.add_view(CloseTicketView(self))
 
         # Load cogs
         await self.load_extension("cogs.admin_cog")

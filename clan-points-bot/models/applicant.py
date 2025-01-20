@@ -4,7 +4,6 @@ class Applicant:
         if data:
             self.discord_id = data.get('discord_id')
             self.is_active = data.get('is_active')
-            self.application_valid = data.get('application_valid')
             self.ticket_channel_id = data.get('ticket_channel_id')
             self.legacy_points = data.get('legacy_points')
             self.application_embed_message_id = data.get('application_embed_message_id')
@@ -16,7 +15,6 @@ class Applicant:
         else:
             self.discord_id = discord_id
             self.is_active = is_active
-            self.application_valid = application_valid
             self.ticket_channel_id = ticket_channel_id
             self.legacy_points = legacy_points
             self.application_embed_message_id = application_embed_message_id
@@ -30,7 +28,6 @@ class Applicant:
         return {
             "discord_id": self.discord_id,
             "is_active": self.is_active,
-            "application_valid": self.application_valid,
             "ticket_channel_id": self.ticket_channel_id,
             "legacy_points": self.legacy_points,
             "application_embed_message_id": self.application_embed_message_id,

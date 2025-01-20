@@ -1,6 +1,8 @@
 from models.applicant import Applicant
 from typing import Optional
 from database import Database
+from models.clan_member import ClanMember
+
 
 class ApplicantService:
     def __init__(self, db: Database):
@@ -68,4 +70,44 @@ class ApplicantService:
                     "survey_q4": q4,
                 }
             },)
+    
+    def disable_application(self, applicant: Applicant):
+        # Set the applicant record to inactive
+        self.db.applicants_collection.update_one(
+            {
+            "discord_id": applicant.discord_id,
+            "is_active": True
+            },
+            {
+                "$set": {
+                    "is_active": False,
+                }
+            },)
+                
+    def approve_member(self, applicant: Applicant) -> ClanMember:
+        # Add the new member
+        new_member=ClanMember(
+                discord_id=applicant.discord_id,
+                is_active=True,
+                points=applicant.legacy_points,
+                point_history=[],
+                survey_q1=applicant.survey_q1,
+                survey_q2=applicant.survey_q2,
+                survey_q3=applicant.survey_q3,
+                survey_q4=applicant.survey_q4,)
+        self.db.members_collection.insert_one(new_member.to_dict())
+        
+        # Set the applicant record to inactive
+        self.db.applicants_collection.update_one(
+            {
+            "discord_id": applicant.discord_id,
+            "is_active": True
+            },
+            {
+                "$set": {
+                    "is_active": False,
+                }
+            },)
+        
+        return new_member
     

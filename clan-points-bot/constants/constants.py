@@ -11,6 +11,9 @@ class Constants:
     ROLE_NAME_MODERATOR="Moderator"
     
     # Button names
+    BUTTON_CLOSE_TICKET="Close this channel"
+    BUTTON_NO="No, keep it open"
+
     BUTTON_WELCOME_PVM_HIGHSCORES="⚔️ PvM Highscores"
     BUTTON_HIGHEST_KCS="📈 Highest KCs"
     BUTTON_EVENT_SHOWCASE="🏆 Event Showcase"
@@ -38,8 +41,10 @@ class Constants:
     
     # Success messages
     SUCCESS_APPLICATION_UPDATED="Your application has been updated!"
-    
+    SUCCESS_MEMBER_APPROVED="Member's application approved!"
+
     # Error messages
+    ERROR_APPLICANT_FORM_INCOMPLETE="Applicant did not finish their questionnaire. If you believe this is an error, contact an admin."
     ERROR_APPLICANT_NOT_FOUND="Applicant not found. Please contact an admin"
     ERROR_INVALID_DATE_FORMAT="Invalid date format. Please use MM/DD/YYYY."
     ERROR_DATE_IN_FUTURE="You provided a date in the future. Try again"

@@ -11,8 +11,7 @@ class JoinClanEmbeds:
     async def get_join_clan_embed(user: discord.User) -> discord.Embed:
         embed=discord.Embed()
         embed.set_author(
-            name=f"{user.display_name}'s Application",
-            icon_url=user.avatar.url,)
+            name=f"{user.display_name}'s Application")
         embed.add_field(
             name="Runescape name(s) of the accounts you want in the clan",
             value="``` ```",
@@ -29,6 +28,7 @@ class JoinClanEmbeds:
             name="Why do you want to join our clan?",
             value="``` ```",
             inline=False,)
+        embed.set_thumbnail(url=user.avatar.url)
         return embed
 
     async def get_admin_interface_embed() -> discord.Embed:
@@ -70,4 +70,9 @@ class JoinClanEmbeds:
 
         embed.set_footer(text="Kitty")
 
+        return embed
+
+    async def get_close_ticket_confirmation_embed() -> discord.Embed:
+        embed = discord.Embed(colour=0xff0000)
+        embed.set_author(name="Are you sure you want to close & delete this channel?")
         return embed
