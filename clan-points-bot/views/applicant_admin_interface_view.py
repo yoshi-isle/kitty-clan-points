@@ -25,7 +25,7 @@ class ApplicantAdminView(discord.ui.View):
             return
         
         # Block approval if the user hasn't filled their form (question 1, 2, and 4 are required)
-        if any(answer is "" for answer in [applicant.survey_q1, applicant.survey_q3, applicant.survey_q4]):
+        if any(answer == "" for answer in [applicant.survey_q1, applicant.survey_q3, applicant.survey_q4]):
             await interaction.response.send_message(Constants.ERROR_APPLICANT_FORM_INCOMPLETE, ephemeral=True)
             return
         
