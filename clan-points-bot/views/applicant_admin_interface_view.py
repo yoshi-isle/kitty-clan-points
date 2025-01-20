@@ -28,16 +28,23 @@ class ApplicantAdminView(discord.ui.View):
         if any(answer is "" for answer in [applicant.survey_q1, applicant.survey_q3, applicant.survey_q4]):
             await interaction.response.send_message(Constants.ERROR_APPLICANT_FORM_INCOMPLETE, ephemeral=True)
             return
+        
+        # Get discord member from applicant
+        applicant_discord_account = interaction.guild.get_member(applicant.discord_id)
 
-        #TODO - Defer
-        member: ClanMember = self.bot.applicant_service.approve_member(applicant)
-        #TODO - Google sheet generation
+        # Generate google sheet
+        await interaction.response.defer(ephemeral=True)
+        google_sheet_url = self.bot.sheets_service.create_sheet(applicant_discord_account.display_name)
+        member: ClanMember = self.bot.applicant_service.approve_member(applicant, google_sheet_url)
+        
+        # Add clan member role to the user
+        member_role = discord.utils.get(interaction.guild.roles, name=Constants.ROLE_NAME_CATNIP)
         
         # Remove the answer questions button from the form
         application_embed_message: discord.Message = await interaction.channel.fetch_message(applicant.application_embed_message_id)
         await application_embed_message.edit(view=None)
         
-        await interaction.response.send_message(Constants.SUCCESS_MEMBER_APPROVED, ephemeral=True)
+        await applicant_discord_account.add_roles(member_role)
         await interaction.channel.send(f"# Application Approved <:thumbsup:1330740113348497541>\nWelcome to the clan {self.bot.get_user(applicant.discord_id).mention}! We hope you enjoy your time at Kitty.\nAn admin will meet up with your account(s) in-game to invite you to the clan channel!")
 
     @discord.ui.button(label=Constants.BUTTON_ADMIN_PANEL_CLOSE, style=discord.ButtonStyle.secondary, custom_id="close_ticket",)

@@ -9,6 +9,7 @@ class Constants:
 
     # Role names
     ROLE_NAME_MODERATOR="Moderator"
+    ROLE_NAME_CATNIP="Catnip"
     
     # Button names
     BUTTON_CLOSE_TICKET="Close this channel"

@@ -84,12 +84,13 @@ class ApplicantService:
                 }
             },)
                 
-    def approve_member(self, applicant: Applicant) -> ClanMember:
+    def approve_member(self, applicant: Applicant, google_sheet_url: str) -> ClanMember:
         # Add the new member
         new_member=ClanMember(
                 discord_id=applicant.discord_id,
                 is_active=True,
                 points=applicant.legacy_points,
+                google_sheet_url=google_sheet_url,
                 point_history=[],
                 survey_q1=applicant.survey_q1,
                 survey_q2=applicant.survey_q2,
