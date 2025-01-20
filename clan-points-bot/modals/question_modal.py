@@ -1,5 +1,6 @@
 import discord
-from views.statuses import Statuses
+from constants import Constants
+from models.applicant import Applicant
 
 
 class QuestionModal(discord.ui.Modal, title="Clan Application"):
@@ -36,21 +37,16 @@ class QuestionModal(discord.ui.Modal, title="Clan Application"):
     async def on_submit(self, interaction: discord.Interaction):
         try:
             # Get the embed to edit
-            applicant_record=self.bot.applicants_collection.find_one({"discord_id": interaction.user.id})
-            application_message=await interaction.channel.fetch_message(applicant_record["application_embed_message_id"])
-            admin_panel_message=await interaction.channel.fetch_message(applicant_record["admin_interface_message_id"])
+            applicant: Applicant = self.bot.applicant_service.get_applicant_by_discord_id(interaction.user.id)
+            if not applicant:
+                interaction.response.send_message("Unable to save application details (are you the applicant?)", ephemeral=True)
+                return
+           
+            application_message=await interaction.channel.fetch_message(applicant.application_embed_message_id)
+            admin_panel_message=await interaction.channel.fetch_message(applicant.admin_interface_message_id)
 
-            # Update applicant record
-            self.bot.applicants_collection.update_one(
-                {"discord_id": interaction.user.id},
-                {
-                    "$set": {
-                        "survey_q1": self.question1.value,
-                        "survey_q2": self.question2.value,
-                        "survey_q3": self.question3.value,
-                        "survey_q4": self.question4.value,
-                    }
-                },)
+            # Update applicant's survey questions
+            self.bot.applicant_service.update_survey_questions(applicant, self.question1.value, self.question2.value, self.question3.value, self.question4.value)
 
             # Edit the application message answers
             application_embed=(application_message.embeds[0] if application_message.embeds else None)
@@ -63,7 +59,7 @@ class QuestionModal(discord.ui.Modal, title="Clan Application"):
                 application_embed.set_field_at(
                     1,
                     name="How did you find out about us / referral?",
-                    value=f"```{self.question2.value}```",
+                    value=f"```{self.question2.value} ```",
                     inline=False,)
                 application_embed.set_field_at(
                     2,
@@ -81,7 +77,7 @@ class QuestionModal(discord.ui.Modal, title="Clan Application"):
             admin_panel_embed.set_field_at(
                 0,
                 name="Application Status",
-                value=f"```ansi{Statuses.READY_FOR_APPROVAL if self.question1 else Statuses.INCOMPLETE_STATUS}```",
+                value=f"```ansi{Constants.READY_FOR_APPROVAL if self.question1 else Constants.INCOMPLETE_STATUS}```",
                 inline=False,)
             await admin_panel_message.edit(embed=admin_panel_embed)
             await interaction.response.send_message("Your application has been updated!", ephemeral=True)

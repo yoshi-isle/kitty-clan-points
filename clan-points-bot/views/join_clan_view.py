@@ -1,34 +1,30 @@
 import os
 import discord
-from models import Applicant, RankUpRequest
+from models.applicant import Applicant
 from views.applicant_view import ApplicantView
 from views.applicant_admin_interface_view import ApplicantAdminView
 from embeds.join_clan_embeds import JoinClanEmbeds
-
+from services.applicant_service import ApplicantService
 
 class JoinClanView(discord.ui.View):
     def __init__(self, bot):
         super().__init__(timeout=None)
         self.bot=bot
+        self.applicant_service: ApplicantService=self.bot.applicant_service
     
-    @discord.ui.button(label="✅ Accept rules & apply to join", style=discord.ButtonStyle.primary, custom_id="join_clan")
+    @discord.ui.button(label="✅ Accept Rules & Apply to Join", style=discord.ButtonStyle.primary, custom_id="join_clan")
     async def join_clan(self, interaction: discord.Interaction, button: discord.ui.Button):
         try:
             # Prevent ticket creation if their user is already in the applicants collection
-            existing_applicant: discord.channel=self.bot.applicants_collection.find_one({"discord_id": interaction.user.id, "is_active": True})
-            if existing_applicant:
-                existing_ticket=interaction.guild.get_channel(existing_applicant['ticket_channel_id'])
+            applicant: Applicant=self.applicant_service.get_applicant_by_discord_id(interaction.user.id)
+            if applicant:
+                existing_ticket=interaction.guild.get_channel(applicant.ticket_channel_id)
                 if existing_ticket:
-                    await interaction.response.send_message(f"You already have an open application here: {interaction.guild.get_channel(existing_applicant['ticket_channel_id']).mention}", ephemeral=True)
+                    await interaction.response.send_message(f"You already have an open application here: {interaction.guild.get_channel(applicant.ticket_channel_id).mention}", ephemeral=True)
                     return
-                await interaction.response.send_message(f"Something went wrong. Please contact an admin", ephemeral=True)
-                return
-            
-            # Prevent ticket creation if their user is already in the members collection
-            existing_member: discord.channel=self.bot.members_collection.find_one({"discord_id": interaction.user.id, "is_active": True})
-            if existing_member:
-                await interaction.response.send_message(f"You're already in the clan!", ephemeral=True)
-                return
+                else:
+                    await interaction.response.send_message(f"Something went wrong. Please contact an admin", ephemeral=True)
+                    return
             
             # Create channel for new applicant
             channel: discord.CategoryChannel=interaction.guild.get_channel(int(os.getenv('NEW_MEMBER_REQUESTS_CATEGORY_ID')))
@@ -46,18 +42,7 @@ class JoinClanView(discord.ui.View):
             application_embed_message: discord.Message=await new_ticket.send(embed=await JoinClanEmbeds.get_join_clan_embed(interaction.user), view=ApplicantView(self.bot))
             
             # Add applicant to the applicants collection
-            applicant=Applicant(
-                discord_id=interaction.user.id,
-                is_active=True,
-                application_valid=False,
-                ticket_channel_id=new_ticket.id,
-                legacy_points=0,
-                application_embed_message_id=application_embed_message.id,
-                admin_interface_message_id=admin_interface_message.id,
-                survey_q1='',
-                survey_q2='',
-                survey_q3='',
-                survey_q4='')
-            self.bot.applicants_collection.insert_one(applicant.to_dict())
+            self.applicant_service.create_new_applicant(interaction.user.id, new_ticket.id, application_embed_message.id, admin_interface_message.id)
+            
         except Exception as e:
             print(f"Error: {e}")

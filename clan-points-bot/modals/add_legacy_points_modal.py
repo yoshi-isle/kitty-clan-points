@@ -1,7 +1,6 @@
 import discord
 from datetime import datetime
-from views.statuses import Statuses
-
+from models.applicant import Applicant
 
 class AddLegacyPointsModal(discord.ui.Modal, title="Add Legacy Points"):
     def __init__(self, bot, *args, **kwargs):
@@ -19,7 +18,7 @@ class AddLegacyPointsModal(discord.ui.Modal, title="Add Legacy Points"):
 
     async def on_submit(self, interaction: discord.Interaction):
         try:
-            applicant_record=self.bot.applicants_collection.find_one({"ticket_channel_id": interaction.channel_id})
+            applicant: Applicant = self.bot.applicant_service.get_applicant_by_discord_id(interaction.channel_id)
 
             # Parse the date
             join_date_str=self.point_amount.value
@@ -41,7 +40,7 @@ class AddLegacyPointsModal(discord.ui.Modal, title="Add Legacy Points"):
             amount_to_add=months_diff * 2
 
             # Edit the admin panel embed
-            admin_panel_message=await interaction.channel.fetch_message(applicant_record["admin_interface_message_id"])
+            admin_panel_message=await interaction.channel.fetch_message(applicant.admin_interface_message_id)
             admin_panel_embed=(admin_panel_message.embeds[0] if admin_panel_message.embeds else None)
 
             admin_panel_embed.set_field_at(
@@ -51,9 +50,7 @@ class AddLegacyPointsModal(discord.ui.Modal, title="Add Legacy Points"):
                 inline=False,)
             await admin_panel_message.edit(embed=admin_panel_embed)
 
-            self.bot.applicants_collection.update_one(
-                {"_id": applicant_record["_id"]},
-                {"$set": {"legacy_points": amount_to_add}},)
+            self.bot.applicant_service.add_legacy_points(applicant, amount_to_add)
             
             await interaction.response.send_message(f"User has been in the clan since {join_date_str} ({months_diff} months), giving them **{amount_to_add}** legacy points.")
 

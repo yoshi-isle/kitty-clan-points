@@ -3,26 +3,31 @@ import os
 from discord.ext import commands
 from dotenv import load_dotenv
 from pymongo import MongoClient
-from services import GoogleSheetsService
+from services.google_sheet_service import GoogleSheetsService
+from services.applicant_service import ApplicantService
 
 from views.join_clan_view import JoinClanView
 from views.applicant_view import ApplicantView
 from views.applicant_admin_interface_view import ApplicantAdminView
 
+from database import Database
 
 class Bot(commands.Bot):
     def __init__(self):
+        # Load environmental variables
         load_dotenv()
+        
+        # Initialize bot
         intents=discord.Intents.all()
         intents.message_content=True
         super().__init__(command_prefix="!", intents=intents)
-        self.client=MongoClient(os.getenv("MONGO_CONNECTION_STRING"))
+        
+        # Setup database
+        self.db = Database()
+
+        # Setup services
         self.sheets_service=GoogleSheetsService()
-        # TODO - Move these
-        self.db=self.client[os.getenv("MONGO_DATABASE_NAME")]
-        self.applicants_collection=self.db[os.getenv("MONGO_APPLICANTS_COLLECTION_NAME")]
-        self.members_collection=self.db[os.getenv("MONGO_MEMBERS_COLLECTION_NAME")]
-        self.rankuprequests_collection=self.db[os.getenv("MONGO_RANKUPREQUESTS_COLLECTION_NAME")]
+        self.applicant_service=ApplicantService(self.db)
 
     async def setup_hook(self) -> None:
         # Persist views
@@ -31,9 +36,8 @@ class Bot(commands.Bot):
         self.add_view(ApplicantAdminView(self))
 
         # Load cogs
-        for cog in ["cogs.admin_cog", "cogs.user_cog"]:
-            await self.load_extension(cog)
-            print(cog, "loaded")
+        await self.load_extension("cogs.admin_cog")
+        await self.load_extension("cogs.user_cog")
 
     async def on_ready(self):
         await self.tree.sync()

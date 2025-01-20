@@ -1,17 +1,13 @@
-from asyncio import sleep
 import discord
 from discord.ext import commands
 from discord import app_commands
 from views.join_clan_view import JoinClanView
 from views.welcome_view import WelcomeView
-from bot import Bot
-from models import Member
-from datetime import datetime
 from embeds.join_clan_embeds import JoinClanEmbeds
 
 
 class AdminCog(commands.Cog):
-    def __init__(self, bot: Bot):
+    def __init__(self, bot):
         self.bot=bot
 
     @app_commands.command(name="post_welcome_embed", description="Displays welcome embed for the clan")
@@ -19,7 +15,6 @@ class AdminCog(commands.Cog):
     async def post_welcome_embed(self, interaction: discord.Interaction):
         await interaction.channel.send(embed=await JoinClanEmbeds.get_kitty_welcome_embed(), view=WelcomeView(self.bot))
         await interaction.channel.send(embed=await JoinClanEmbeds.get_application_embed(), view=JoinClanView(self.bot))
-
         await interaction.response.send_message(f"Join clan embed posted", ephemeral=True)
 
     # TODO - Remove for production
@@ -27,10 +22,13 @@ class AdminCog(commands.Cog):
     @app_commands.checks.has_role("Admin")
     async def clear_db(self, interaction: discord.Interaction):
         try:
-            self.bot.applicants_collection.delete_many({})
-            self.bot.members_collection.delete_many({})
-            self.bot.rankuprequests_collection.delete_many({})
-            await interaction.response.send_message("Cleared applicants, members, and rank up request collection", ephemeral=True,)
+            self.bot.db.applicants_collection.delete_many({})
+            await interaction.response.send_message("Cleared applicants collection", ephemeral=True,)
+            
+            ticket_category = discord.utils.get(interaction.guild.categories, name="new member requests")
+            if ticket_category:
+                for channel in ticket_category.channels:
+                    await channel.delete()
 
         except Exception as e:
             print(f"Error deleting all: {e}")

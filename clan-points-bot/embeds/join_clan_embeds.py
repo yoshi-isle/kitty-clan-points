@@ -1,5 +1,5 @@
 import discord
-from views.statuses import Statuses
+from constants import Constants
 
 
 class JoinClanEmbeds:
@@ -38,7 +38,7 @@ class JoinClanEmbeds:
         embed.color=discord.Color.purple()
         embed.add_field(
             name="Application Status",
-            value=f"```ansi{Statuses.INCOMPLETE_STATUS}```",
+            value=f"```ansi{Constants.INCOMPLETE_STATUS}```",
             inline=False,)
         embed.add_field(
             name="Legacy Points",

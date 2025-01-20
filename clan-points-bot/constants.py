@@ -1,5 +1,4 @@
-class Statuses:
-
+class Constants:
     INCOMPLETE_STATUS="""
 [2;31m[2;41m[2;43m[2;40mIncomplete[0m[2;31m[2;43m[0m[2;31m[2;41m[0m[2;31m[0m
 """

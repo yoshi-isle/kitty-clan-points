@@ -1,8 +1,4 @@
 import discord
-from models import Applicant, RankUpRequest
-from views.applicant_view import ApplicantView
-from views.applicant_admin_interface_view import ApplicantAdminView
-from embeds.join_clan_embeds import JoinClanEmbeds
 
 class WelcomeView(discord.ui.View):
     def __init__(self, bot):
