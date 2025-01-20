@@ -1,5 +1,5 @@
 import discord
-from constants import Constants
+from constants.constants import Constants
 from models.applicant import Applicant
 
 
@@ -8,28 +8,36 @@ class QuestionModal(discord.ui.Modal, title="Clan Application"):
         super().__init__(*args, **kwargs)
         self.bot=bot
 
-        # Create TextInputs with existing answers if available
-        self.question1=discord.ui.TextInput(
-            label="Runescape name(s)",
-            placeholder="Enter names separated by commas (Zezima, Zezima2, ...)",
+        # Create TextInputs with existing answers if available and set character limits
+        self.question1 = discord.ui.TextInput(
+            label=Constants.APPLICATION_QUESTION1,
+            placeholder=Constants.APPLICATION_QUESTION1_PLACEHOLDER,
             style=discord.TextStyle.short,
             required=True,
-            default=existing_answers.get("q1", "") if existing_answers else "",)
-        self.question2=discord.ui.TextInput(
-            label="How did you find out about us / referral?",
-            style=discord.TextStyle.short,
+            default=existing_answers.get("q1", "") if existing_answers else "",
+            max_length=80,
+        )
+        self.question2 = discord.ui.TextInput(
+            label=Constants.APPLICATION_QUESTION2,
+            style=discord.TextStyle.long,
             required=False,
-            default=existing_answers.get("q2", "") if existing_answers else "",)
-        self.question3=discord.ui.TextInput(
-            label="What content do you like to do in-game?",
+            default=existing_answers.get("q2", "") if existing_answers else "",
+            max_length=100,
+        )
+        self.question3 = discord.ui.TextInput(
+            label=Constants.APPLICATION_QUESTION3,
             style=discord.TextStyle.paragraph,
             required=True,
-            default=existing_answers.get("q3", "") if existing_answers else "",)
-        self.question4=discord.ui.TextInput(
-            label="Why do you want to join our clan?",
+            default=existing_answers.get("q3", "") if existing_answers else "",
+            max_length=200,
+        )
+        self.question4 = discord.ui.TextInput(
+            label=Constants.APPLICATION_QUESTION4,
             style=discord.TextStyle.paragraph,
             required=True,
-            default=existing_answers.get("q4", "") if existing_answers else "",)
+            default=existing_answers.get("q4", "") if existing_answers else "",
+            max_length=200,
+        )
 
         for item in [self.question1, self.question2, self.question3, self.question4]:
             self.add_item(item)
@@ -39,7 +47,7 @@ class QuestionModal(discord.ui.Modal, title="Clan Application"):
             # Get the embed to edit
             applicant: Applicant = self.bot.applicant_service.get_applicant_by_discord_id(interaction.user.id)
             if not applicant:
-                interaction.response.send_message("Unable to save application details (are you the applicant?)", ephemeral=True)
+                interaction.response.send_message(Constants.ERROR_APPLICANT_NOT_FOUND, ephemeral=True)
                 return
            
             application_message=await interaction.channel.fetch_message(applicant.application_embed_message_id)
@@ -53,22 +61,22 @@ class QuestionModal(discord.ui.Modal, title="Clan Application"):
             if application_embed:
                 application_embed.set_field_at(
                     0,
-                    name="Runescape name(s)",
+                    name=Constants.APPLICATION_QUESTION1,
                     value=f"```{self.question1.value}```",
                     inline=False,)
                 application_embed.set_field_at(
                     1,
-                    name="How did you find out about us / referral?",
+                    name=Constants.APPLICATION_QUESTION2,
                     value=f"```{self.question2.value} ```",
                     inline=False,)
                 application_embed.set_field_at(
                     2,
-                    name="What content do you like to do in-game?",
+                    name=Constants.APPLICATION_QUESTION3,
                     value=f"```{self.question3.value}```",
                     inline=False,)
                 application_embed.set_field_at(
                     3,
-                    name="Why do you want to join our clan?",
+                    name=Constants.APPLICATION_QUESTION4,
                     value=f"```{self.question4.value}```",
                     inline=False,)
                 await application_message.edit(embed=application_embed)
@@ -76,12 +84,12 @@ class QuestionModal(discord.ui.Modal, title="Clan Application"):
             admin_panel_embed=(admin_panel_message.embeds[0] if admin_panel_message.embeds else None)
             admin_panel_embed.set_field_at(
                 0,
-                name="Application Status",
+                name=Constants.APPLICATION_STATUS_HEADER,
                 value=f"```ansi{Constants.READY_FOR_APPROVAL if self.question1 else Constants.INCOMPLETE_STATUS}```",
                 inline=False,)
             await admin_panel_message.edit(embed=admin_panel_embed)
-            await interaction.response.send_message("Your application has been updated!", ephemeral=True)
+            await interaction.response.send_message(Constants.SUCCESS_APPLICATION_UPDATED, ephemeral=True)
 
         except Exception as e:
-            await interaction.response.send_message("There was an error updating your application.", ephemeral=True)
+            await interaction.response.send_message("There was an error updating your application", ephemeral=True)
             print(f"Error saving applicant's form: {e}")

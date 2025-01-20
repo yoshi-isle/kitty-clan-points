@@ -32,6 +32,16 @@ class ApplicantService:
         if applicant_record:
             return Applicant(applicant_record)
         return None
+    
+    def get_applicant_by_ticket_channel_id(self, ticket_channel_id: int) -> Optional[Applicant]:
+        applicant_record = self.db.applicants_collection.find_one(
+            {
+                "ticket_channel_id": ticket_channel_id,
+                "is_active": True
+            })
+        if applicant_record:
+            return Applicant(applicant_record)
+        return None
 
     def add_legacy_points(self, applicant: Applicant, amount_to_add: int):
         self.db.applicants_collection.update_one(

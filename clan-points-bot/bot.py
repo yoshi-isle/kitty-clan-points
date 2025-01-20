@@ -9,6 +9,7 @@ from services.applicant_service import ApplicantService
 from views.join_clan_view import JoinClanView
 from views.applicant_view import ApplicantView
 from views.applicant_admin_interface_view import ApplicantAdminView
+from views.welcome_view import WelcomeView
 
 from database import Database
 
@@ -33,6 +34,7 @@ class Bot(commands.Bot):
         # Persist views
         self.add_view(JoinClanView(self))
         self.add_view(ApplicantView(self))
+        self.add_view(WelcomeView(self))
         self.add_view(ApplicantAdminView(self))
 
         # Load cogs

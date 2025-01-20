@@ -1,5 +1,5 @@
 import discord
-from constants import Constants
+from constants.constants import Constants
 
 
 class JoinClanEmbeds:
@@ -29,7 +29,6 @@ class JoinClanEmbeds:
             name="Why do you want to join our clan?",
             value="``` ```",
             inline=False,)
-        embed.set_footer(text="discord.gg/kittycats")
         return embed
 
     async def get_admin_interface_embed() -> discord.Embed:
@@ -37,38 +36,18 @@ class JoinClanEmbeds:
         embed.set_author(name="Admin Interface")
         embed.color=discord.Color.purple()
         embed.add_field(
-            name="Application Status",
+            name=Constants.APPLICATION_STATUS_HEADER,
             value=f"```ansi{Constants.INCOMPLETE_STATUS}```",
             inline=False,)
         embed.add_field(
-            name="Legacy Points",
+            name=Constants.LEGACY_POINTS_HEADER,
             value=f"```0```",
             inline=False,)
         embed.set_footer(text="This panel is for admin-use only")
         return embed
 
     async def get_kitty_welcome_embed() -> discord.Embed:
-        embed=discord.Embed(
-            title="Welcome to Kitty <:wave:1330649611584536727>",
-            description="We are a variety clan in OSRS that is full of the most wholesome gamers around!",
-            colour=0x6E00F5,)
-
-        embed.add_field(
-            name="<:think:1330649474753761401> What do we do?",
-            value="We host a variety of fun events outlined below! We are also a friendly place to hang out and chat with others. All types of players are welcome.",
-            inline=False,)
-        embed.add_field(
-            name="🎯 Bingos",
-            value="Looking to compete with others? Our bingo events would be perfect for you! We take great pride during these times in our clan. We have successfully hosted some of the most unique bingos the community has to offer.\nCheck out our event showcase here: https://discord.com/channels/847313025919746129/1206465136135634955",
-            inline=False,)
-        embed.add_field(
-            name="<:spy:1330649187716432026> Variety Events",
-            value="As a clan member, you can expect a multitude of fun events, including and not limited to:\n* Boss bash events\n* Skill of the weeks\n* Hide 'n' seek events\n* Learning raids\n* Kirby's CoX megascales\n* Boss masses & movie nights\n* A drop party at the end of the year!",
-            inline=False,)
-        embed.add_field(
-            name="🏆 PvM Highscores",
-            value="Got a PvM itch to scratch? Do you love to compete for personal bests or highest killcounts? Check out our https://discord.com/channels/847313025919746129/1201321320537935932\nBeing a clan member gives you the opportunity to submit your stuff, show off your PvM prowess, and try to snag those #1 spots!",
-            inline=False,)
+        embed=discord.Embed(colour=0x6E00F5,)
         embed.add_field(name="Founded", value="May 2021", inline=True)
         embed.add_field(name="Clan Name", value="Kitty", inline=True)
         embed.add_field(name="Home Worlds", value="354 & 521", inline=True)
