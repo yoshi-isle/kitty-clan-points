@@ -23,7 +23,7 @@ class Constants:
     
     BUTTON_APPLY_TO_JOIN="✅ Accept Rules & Apply to Join"
     
-    BUTTON_ANSWER_EDIT_QUESTIONS="✍️ Answer the Questions / Edit Your Responses"
+    BUTTON_ANSWER_EDIT_QUESTIONS="📝 Click here to answer the questions"
     
     BUTTON_ADMIN_PANEL_APPROVE="✅"
     BUTTON_ADMIN_PANEL_CLOSE="❌"

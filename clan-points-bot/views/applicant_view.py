@@ -8,7 +8,7 @@ class ApplicantView(discord.ui.View):
         super().__init__(timeout=None)
         self.bot=bot
 
-    @discord.ui.button(label=Constants.BUTTON_ANSWER_EDIT_QUESTIONS, style=discord.ButtonStyle.grey, custom_id="answer_questions",)
+    @discord.ui.button(label=Constants.BUTTON_ANSWER_EDIT_QUESTIONS, style=discord.ButtonStyle.primary, custom_id="answer_questions",)
     async def answer_questions(self, interaction: discord.Interaction, button: discord.ui.Button):
         try:
             # Check interaction user is the applicant

@@ -33,10 +33,10 @@ class ApplicantAdminView(discord.ui.View):
         applicant_discord_account = interaction.guild.get_member(applicant.discord_id)
 
         # Generate google sheet
-        await interaction.response.defer(ephemeral=True)
-        google_sheet_url = self.bot.sheets_service.create_sheet(applicant_discord_account.display_name)
+        await interaction.response.send_message(f"New member approved. Please wait...", ephemeral=True)
+        google_sheet_url = self.bot.sheets_service.create_sheet(applicant_discord_account.display_name, applicant)
         member: ClanMember = self.bot.applicant_service.approve_member(applicant, google_sheet_url)
-        
+
         # Add clan member role to the user
         member_role = discord.utils.get(interaction.guild.roles, name=Constants.ROLE_NAME_CATNIP)
         
@@ -45,7 +45,7 @@ class ApplicantAdminView(discord.ui.View):
         await application_embed_message.edit(view=None)
         
         await applicant_discord_account.add_roles(member_role)
-        await interaction.channel.send(f"# Application Approved <:thumbsup:1330740113348497541>\nWelcome to the clan {self.bot.get_user(applicant.discord_id).mention}! We hope you enjoy your time at Kitty.\nAn admin will meet up with your account(s) in-game to invite you to the clan channel!")
+        await interaction.channel.send(f"# Application Approved <:thumbsup:1330740113348497541>\nWelcome to the clan {self.bot.get_user(applicant.discord_id).mention}! We hope you enjoy your time at Kitty.\n<:acceptaid:1331014462521741322> please enable accept aid and meet an admin in-game so we can invite you")
 
     @discord.ui.button(label=Constants.BUTTON_ADMIN_PANEL_CLOSE, style=discord.ButtonStyle.secondary, custom_id="close_ticket",)
     async def close_ticket(self, interaction: discord.Interaction, button: discord.ui.Button):
@@ -55,7 +55,6 @@ class ApplicantAdminView(discord.ui.View):
             return
         await interaction.channel.send(embed=await JoinClanEmbeds.get_close_ticket_confirmation_embed(), view=CloseTicketView(self.bot))
         await interaction.response.defer()
-        # await interaction.response.send_message("Display ticket closing options", ephemeral=True)
 
     @discord.ui.button(label=Constants.BUTTON_ADMIN_PANEL_ADD_LEGACY_POINTS, style=discord.ButtonStyle.secondary, custom_id="add_time_legacy_points",)
     async def add_time_legacy_points(self, interaction: discord.Interaction, button: discord.ui.Button):

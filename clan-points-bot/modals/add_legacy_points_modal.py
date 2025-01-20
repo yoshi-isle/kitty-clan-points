@@ -51,6 +51,6 @@ class AddLegacyPointsModal(discord.ui.Modal, title="Add Legacy Points"):
             inline=False,)
         await admin_panel_message.edit(embed=admin_panel_embed)
 
-        self.bot.applicant_service.add_legacy_points(applicant, amount_to_add)
+        self.bot.applicant_service.add_legacy_points(applicant, amount_to_add, join_date_str)
         
         await interaction.response.send_message(f"User has been in the clan since {join_date_str} ({months_diff} months), giving them **{amount_to_add}** legacy points.")

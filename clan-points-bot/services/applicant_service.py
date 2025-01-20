@@ -1,3 +1,4 @@
+from datetime import date, datetime
 from models.applicant import Applicant
 from typing import Optional
 from database import Database
@@ -13,11 +14,11 @@ class ApplicantService:
                 data=None,
                 discord_id=discord_id,
                 is_active=True,
-                application_valid=False,
                 ticket_channel_id=ticket_channel_id,
                 legacy_points=0,
                 application_embed_message_id=application_embed_id,
                 admin_interface_message_id=admin_interface_embed_id,
+                join_date=datetime.combine(date.today(), datetime.min.time()),
                 survey_q1='',
                 survey_q2='',
                 survey_q3='',
@@ -45,14 +46,19 @@ class ApplicantService:
             return Applicant(applicant_record)
         return None
 
-    def add_legacy_points(self, applicant: Applicant, amount_to_add: int):
+    def add_legacy_points(self, applicant: Applicant, amount_to_add: int, join_date_str):
+        # Convert date string to datetime object
+        join_date = datetime.strptime(join_date_str, '%m/%d/%Y')
+        join_date = datetime.combine(join_date.date(), datetime.min.time())
+
         self.db.applicants_collection.update_one(
             {
                 "discord_id": applicant.discord_id,
                 "is_active": True
             },
             {   "$set": {
-                    "legacy_points": amount_to_add
+                    "legacy_points": amount_to_add,
+                    "join_date": join_date
                 }
             },)
     

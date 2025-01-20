@@ -1,6 +1,7 @@
 import os
 import discord
 from models.applicant import Applicant
+from models.clan_member import ClanMember
 from views.applicant_view import ApplicantView
 from views.applicant_admin_interface_view import ApplicantAdminView
 from embeds.join_clan_embeds import JoinClanEmbeds
@@ -26,6 +27,12 @@ class JoinClanView(discord.ui.View):
                 else:
                     await interaction.response.send_message(f"Something went wrong. Please contact an admin", ephemeral=True)
                     return
+                
+            # Prevent ticket creation if they are already a clan member
+            member: ClanMember=self.bot.clan_member_service.get_member_by_discord_id(interaction.user.id)
+            if member:
+                await interaction.response.send_message(f"You're already in the clan!", ephemeral=True)
+                return
             
             # Create channel for new applicant
             channel: discord.CategoryChannel=interaction.guild.get_channel(int(os.getenv('NEW_MEMBER_REQUESTS_CATEGORY_ID')))
@@ -41,11 +48,13 @@ class JoinClanView(discord.ui.View):
             admin_interface_message: discord.Message=await new_ticket.send(embed=await JoinClanEmbeds.get_admin_interface_embed(), view=ApplicantAdminView(self.bot))
 
             # Send a welcome message
-            await new_ticket.send(f"# __Clan Member Application__\nWelcome {interaction.user.mention}! We're excited that you're interested in joining our growing community.\n\nPlease take a moment to answer the questions below so we can get to know you better.\n\n*Already part of the clan?* If you're an existing member looking to claim legacy points, please let us know your join date, and an admin will assist you shortly.")
+            await new_ticket.send(f"# __Clan Member Application__\nWelcome! We're excited that you're interested in joining our growing community.\n\nPlease take a moment to answer the questions below so we can get to know you better.\n\n*Already part of the clan?* If you're an existing member looking to claim legacy points, please let us know your join date, and an admin will assist you shortly.")
             
             # Create application embed and send applicant view
             application_embed_message: discord.Message=await new_ticket.send(embed=await JoinClanEmbeds.get_join_clan_embed(interaction.user), view=ApplicantView(self.bot))
             
+            await new_ticket.send(f"👋 Hi {interaction.user.mention} - The form above is for you to fill out. Ping an admin when you are done.")
+
             # Add applicant to the applicants collection
             self.applicant_service.create_new_applicant(interaction.user.id, new_ticket.id, application_embed_message.id, admin_interface_message.id)
             
