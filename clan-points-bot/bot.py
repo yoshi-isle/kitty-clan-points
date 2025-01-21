@@ -30,8 +30,8 @@ class Bot(commands.Bot):
 
         # Setup services
         self.sheets_service=GoogleSheetsService()
-        self.clan_member_service=ClanMemberService(self.db)
         self.applicant_service=ApplicantService(self.db)
+        self.clan_member_service=ClanMemberService(self.db, self.sheets_service)
 
     async def setup_hook(self) -> None:
         # Persist views

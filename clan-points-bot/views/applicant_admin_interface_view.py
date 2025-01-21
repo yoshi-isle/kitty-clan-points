@@ -36,6 +36,9 @@ class ApplicantAdminView(discord.ui.View):
         await interaction.response.send_message(f"New member approved. Please wait...", ephemeral=True)
         google_sheet_url = self.bot.sheets_service.create_sheet(applicant_discord_account.display_name, applicant)
         member: ClanMember = self.bot.applicant_service.approve_member(applicant, google_sheet_url)
+        
+        # Add their initial task to their sheet
+        self.bot.sheets_service.add_task(google_sheet_url, "Legacy Points", member.points, None)
 
         # Add clan member role to the user
         member_role = discord.utils.get(interaction.guild.roles, name=Constants.ROLE_NAME_CATNIP)

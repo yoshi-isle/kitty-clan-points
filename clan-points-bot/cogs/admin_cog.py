@@ -33,6 +33,17 @@ class AdminCog(commands.Cog):
 
         except Exception as e:
             print(f"Error deleting all: {e}")
+    
+    # TODO - Remove for production
+    @app_commands.command(name="sample_task", description="Sample task (for testing)")
+    @app_commands.checks.has_role("Admin")
+    async def sample_task(self, interaction: discord.Interaction, task_name: str, point_amount: int, image: discord.Attachment):
+        try:
+            member: ClanMember=self.bot.clan_member_service.get_member_by_discord_id(interaction.user.id)
+            self.bot.clan_member_service.add_task(member, task_name, point_amount, image.url)
+
+        except Exception as e:
+            print(f"Error deleting all: {e}")
 
     @app_commands.command(name="view_sheet", description="View a user's clan points sheet")
     @app_commands.checks.has_role("Admin")
