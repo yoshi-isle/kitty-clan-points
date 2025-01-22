@@ -3,6 +3,7 @@ import gspread
 from typing import Optional
 from gspread_formatting import *
 from models.applicant import Applicant
+from models.task import Task
 from constants.constants import Constants
 
 class GoogleSheetsService:
@@ -54,6 +55,8 @@ class GoogleSheetsService:
             worksheet.update_cell(4, 1, f"Task Completion")
             worksheet.update_cell(4, 2, f"Point Amount")
             worksheet.update_cell(4, 3, f"Proof")
+            worksheet.update_cell(4, 4, f"Approved By:")
+
             format_cell_range(worksheet, '1:1', CellFormat(textFormat=TextFormat(bold=True), horizontalAlignment='CENTER', verticalAlignment='MIDDLE'))
             format_cell_range(worksheet, '2:2', CellFormat(horizontalAlignment='LEFT'))
             format_cell_range(worksheet, '4:4', CellFormat(textFormat=TextFormat(bold=True), horizontalAlignment='CENTER'))
@@ -69,7 +72,7 @@ class GoogleSheetsService:
         except Exception as e:
             print(f"Error adding sheet: {e}")
 
-    def add_task(self, sheet_url: str, task_name: str, point_value: int, image_url: Optional[str]):
+    def add_task(self, sheet_url: str, task: Task):
             try:
                 worksheet = self.open_sheet(sheet_url)
                 # Get all values in column A starting from row 5
@@ -78,9 +81,10 @@ class GoogleSheetsService:
                 next_row = 5 + len([v for v in values if v.strip() != ""])
                 
                 # Update the cells with task info
-                worksheet.update_cell(next_row, 1, task_name)
-                worksheet.update_cell(next_row, 2, point_value)
-                worksheet.update_cell(next_row, 3, image_url)
+                worksheet.update_cell(next_row, 1, task.task_name)
+                worksheet.update_cell(next_row, 2, task.point_value)
+                worksheet.update_cell(next_row, 3, task.image_url)
+                worksheet.update_cell(next_row, 4, task.approved_by)
 
                 return True
             except Exception as e:

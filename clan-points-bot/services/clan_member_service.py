@@ -1,4 +1,5 @@
 from models.clan_member import ClanMember
+from models.task import Task
 from typing import Optional
 from database import Database
 from services.google_sheet_service import GoogleSheetsService
@@ -18,7 +19,7 @@ class ClanMemberService:
             return ClanMember(clan_member_record)
         return None
 
-    def add_task(self, member: ClanMember, task_name: str, point_value: int, image_url: Optional[str]):
+    def add_task(self, member: ClanMember, task: Task):
         try:
             self.db.members_collection.update_one(
                 {
@@ -26,18 +27,12 @@ class ClanMemberService:
                 "is_active": True
                 },
                 {
-                "$inc": {"points": point_value},
                 "$push": {
-                    "point_history": {
-                        "task_name": task_name,
-                        "point_value": point_value,
-                        "image_url": image_url
-                    }
+                    "task_history": task.to_dict()
                 }})
             
-            self.google_sheets_service.add_task(member.google_sheet_url, task_name, point_value, image_url)
+            self.google_sheets_service.add_task(member.google_sheet_url, task)
         
         except Exception as e:
             print(f"Error adding task to the user: {e}")
-        
-        
+

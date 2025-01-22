@@ -95,9 +95,8 @@ class ApplicantService:
         new_member=ClanMember(
                 discord_id=applicant.discord_id,
                 is_active=True,
-                points=applicant.legacy_points,
                 google_sheet_url=google_sheet_url,
-                point_history=[],
+                task_history=[],
                 survey_q1=applicant.survey_q1,
                 survey_q2=applicant.survey_q2,
                 survey_q3=applicant.survey_q3,

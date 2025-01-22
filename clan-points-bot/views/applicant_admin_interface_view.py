@@ -4,7 +4,9 @@ from views.close_ticket_view import CloseTicketView
 from modals.add_legacy_points_modal import AddLegacyPointsModal
 from models.clan_member import ClanMember
 from models.applicant import Applicant
+from models.task import Task
 from constants.constants import Constants
+from constants.tasks import Tasks
 
 class ApplicantAdminView(discord.ui.View):
     def __init__(self, bot):
@@ -33,12 +35,21 @@ class ApplicantAdminView(discord.ui.View):
         applicant_discord_account = interaction.guild.get_member(applicant.discord_id)
 
         # Generate google sheet
-        await interaction.response.send_message(f"New member approved. Please wait...", ephemeral=True)
+        await interaction.response.defer()
         google_sheet_url = self.bot.sheets_service.create_sheet(applicant_discord_account.display_name, applicant)
         member: ClanMember = self.bot.applicant_service.approve_member(applicant, google_sheet_url)
         
         # Add their initial task to their sheet
-        self.bot.sheets_service.add_task(google_sheet_url, "Legacy Points", member.points, None)
+        legacy_task_definition=Tasks.SUBMITTABLE_TASKS[0]
+        legacy_task: Task=Task(
+            is_active=True,
+            task_name=legacy_task_definition["name"],
+            task_id=0,
+            point_value=applicant.legacy_points,
+            image_url=None,
+            approved_by=interaction.user.display_name)
+        
+        self.bot.clan_member_service.add_task(member, legacy_task)
 
         # Add clan member role to the user
         member_role = discord.utils.get(interaction.guild.roles, name=Constants.ROLE_NAME_CATNIP)
@@ -48,7 +59,7 @@ class ApplicantAdminView(discord.ui.View):
         await application_embed_message.edit(view=None)
         
         await applicant_discord_account.add_roles(member_role)
-        await interaction.channel.send(f"# Application Approved <:thumbsup:1330740113348497541>\nWelcome to the clan {self.bot.get_user(applicant.discord_id).mention}! We hope you enjoy your time at Kitty.\n<:acceptaid:1331014462521741322> please enable accept aid and meet an admin in-game so we can invite you")
+        await interaction.followup.send(f"# Application Approved <:thumbsup:1330740113348497541>\nWelcome to the clan {self.bot.get_user(applicant.discord_id).mention}! We hope you enjoy your time at Kitty.\n<:acceptaid:1331014462521741322> Don't forget to enable accept aid and meet an admin in-game so we can invite you")
 
     @discord.ui.button(label=Constants.BUTTON_ADMIN_PANEL_CLOSE, style=discord.ButtonStyle.secondary, custom_id="close_ticket",)
     async def close_ticket(self, interaction: discord.Interaction, button: discord.ui.Button):
