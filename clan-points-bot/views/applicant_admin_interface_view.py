@@ -40,7 +40,7 @@ class ApplicantAdminView(discord.ui.View):
         member: ClanMember = self.bot.applicant_service.approve_member(applicant, google_sheet_url)
         
         # Add their initial task to their sheet
-        legacy_task_definition=Tasks.SUBMITTABLE_TASKS[0]
+        legacy_task_definition=Tasks.AVAILABLE_TASKS[0]
         legacy_task: Task=Task(
             is_active=True,
             task_name=legacy_task_definition["name"],
