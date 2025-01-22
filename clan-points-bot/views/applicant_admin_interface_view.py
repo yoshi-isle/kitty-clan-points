@@ -59,7 +59,7 @@ class ApplicantAdminView(discord.ui.View):
         await application_embed_message.edit(view=None)
         
         await applicant_discord_account.add_roles(member_role)
-        await interaction.followup.send(f"# Application Approved <:thumbsup:1330740113348497541>\nWelcome to the clan {self.bot.get_user(applicant.discord_id).mention}! We hope you enjoy your time at Kitty.\n<:acceptaid:1331014462521741322> Don't forget to enable accept aid and meet an admin in-game so we can invite you")
+        await interaction.followup.send(f"# Application Approved <:thumbsup:1330740113348497541>\nWelcome to the clan {self.bot.get_user(applicant.discord_id).mention}! We hope you enjoy your time at Kitty.\n<:acceptaid:1331014462521741322> Don't forget to enable accept aid!\nAn admin will arrange to meet you in-game to officially invite you")
 
     @discord.ui.button(label=Constants.BUTTON_ADMIN_PANEL_CLOSE, style=discord.ButtonStyle.secondary, custom_id="close_ticket",)
     async def close_ticket(self, interaction: discord.Interaction, button: discord.ui.Button):
