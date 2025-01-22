@@ -48,12 +48,12 @@ class JoinClanView(discord.ui.View):
             admin_interface_message: discord.Message=await new_ticket.send(embed=await JoinClanEmbeds.get_admin_interface_embed(), view=ApplicantAdminView(self.bot))
 
             # Send a welcome message
-            await new_ticket.send(f"# __Clan Member Application__\nWelcome! We're excited that you're interested in joining our growing community.\n\nPlease take a moment to answer the questions below so we can get to know you better.\n\n*Already part of the clan?* If you're an existing member looking to claim legacy points, please let us know your join date, and an admin will assist you shortly.")
+            await new_ticket.send(f"# <:application:1331487726075252759> __Clan Member Application__\nWelcome! We're excited that you're interested in joining our growing community.\n\nPlease take a moment to answer the questions below so we can get to know you better.\n\n*Already part of the clan?* If you're an existing member looking to claim legacy points, please let us know your join date, and an admin will assist you shortly.")
             
             # Create application embed and send applicant view
             application_embed_message: discord.Message=await new_ticket.send(embed=await JoinClanEmbeds.get_join_clan_embed(interaction.user), view=ApplicantView(self.bot))
             
-            await new_ticket.send(f"👋 Hi {interaction.user.mention} - The form above is for you to fill out. Ping an admin when you are done.")
+            await new_ticket.send(f"<a:Wave:1331488563715510322> Hi {interaction.user.mention} - The form above is for you to fill out. Ping an admin when you are done.")
 
             # Add applicant to the applicants collection
             self.applicant_service.create_new_applicant(interaction.user.id, new_ticket.id, application_embed_message.id, admin_interface_message.id)

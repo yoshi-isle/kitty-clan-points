@@ -35,21 +35,22 @@ class ApplicantAdminView(discord.ui.View):
         applicant_discord_account = interaction.guild.get_member(applicant.discord_id)
 
         # Generate google sheet
-        await interaction.response.defer()
+        await interaction.response.send_message(f"New member approved. Please wait...", ephemeral=True)
         google_sheet_url = self.bot.sheets_service.create_sheet(applicant_discord_account.display_name, applicant)
         member: ClanMember = self.bot.applicant_service.approve_member(applicant, google_sheet_url)
         
-        # Add their initial task to their sheet
-        legacy_task_definition=Tasks.AVAILABLE_TASKS[0]
-        legacy_task: Task=Task(
-            is_active=True,
-            task_name=legacy_task_definition["name"],
-            task_id=0,
-            point_value=applicant.legacy_points,
-            image_url=None,
-            approved_by=interaction.user.display_name)
+        # Add their initial task to their sheet if any points balance
+        if applicant.legacy_points > 0:
+            legacy_task_definition=Tasks.AVAILABLE_TASKS[0]
+            legacy_task: Task=Task(
+                is_active=True,
+                task_name=legacy_task_definition["name"],
+                task_id=0,
+                point_value=applicant.legacy_points,
+                image_url=None,
+                approved_by=interaction.user.display_name)
         
-        self.bot.clan_member_service.add_task(member, legacy_task)
+            self.bot.clan_member_service.add_task(member, legacy_task)
 
         # Add clan member role to the user
         member_role = discord.utils.get(interaction.guild.roles, name=Constants.ROLE_NAME_CATNIP)

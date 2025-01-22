@@ -20,7 +20,9 @@ class Constants:
     BUTTON_EVENT_SHOWCASE="🏆 Event Showcase"
     BUTTON_CLAN_PHOTOS="📷 Clan Photos"
     BUTTON_UPCOMING_EVENTS="📅 Upcoming Events"
-    
+    BUTTON_GIVEAWAYS="🎉 Giveaways"
+    BUTTON_WISE_OLD_MAN="📊 WiseOldMan Group"
+
     BUTTON_APPLY_TO_JOIN="✅ Accept Rules & Apply to Join"
     
     BUTTON_ANSWER_EDIT_QUESTIONS="📝 Click here to answer the questions"
