@@ -1,5 +1,4 @@
 import os
-from typing import Optional
 import gspread
 from database import Database
 from gspread_formatting import *
