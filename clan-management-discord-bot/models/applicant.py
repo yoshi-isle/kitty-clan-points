@@ -24,7 +24,7 @@ class Applicant:
         survey_q4: Response to survey question 4
     """
 
-    _id: Optional[ObjectId] = ObjectId()
+    _id: Optional[ObjectId] = None
     discord_id: Optional[str] = None
     is_active: Optional[bool] = None
     ticket_channel_id: Optional[str] = None

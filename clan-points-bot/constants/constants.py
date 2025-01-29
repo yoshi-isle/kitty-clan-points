@@ -7,6 +7,18 @@ class Constants:
 [2;40m[2;32mReady for approval[0m[2;40m[0m
 """
 
+    # Channel IDs
+    CATEGORY_ID_NEW_MEMBER_REQUESTS=1327810678513340508
+    CHANNEL_ID_PVM_HIGHSCORES=1327471885826392087
+    CHANNEL_ID_HIGHEST_KCS=1327471885826392087
+    CHANNEL_ID_EVENT_WINNERS=1327471885826392087
+    CHANNEL_ID_CLAN_PHOTOS=1327471885826392087
+    CHANNEL_ID_UPCOMING_EVENTS=1327471885826392087
+    CHANNEL_ID_GIVEAWAYS=1327471885826392087
+    
+    # Links
+    WISE_OLD_MAN_GROUP="https://wiseoldman.net/groups/1165"
+    
     # Role names
     ROLE_NAME_MODERATOR="Moderator"
     ROLE_NAME_CATNIP="Catnip"
@@ -27,9 +39,9 @@ class Constants:
     
     BUTTON_ANSWER_EDIT_QUESTIONS="📝 Click here to answer the questions"
     
-    BUTTON_ADMIN_PANEL_APPROVE="✅"
-    BUTTON_ADMIN_PANEL_CLOSE="❌"
-    BUTTON_ADMIN_PANEL_ADD_LEGACY_POINTS="🗓️"
+    BUTTON_ADMIN_PANEL_APPROVE="Approve✅"
+    BUTTON_ADMIN_PANEL_CLOSE="Close❌"
+    BUTTON_ADMIN_PANEL_ADD_LEGACY_POINTS="Legacy Points🗓️"
     
     # Admin panel
     APPLICATION_STATUS_HEADER="Application Status"
@@ -42,17 +54,24 @@ class Constants:
     APPLICATION_QUESTION3="What content do you like to do in-game?"
     APPLICATION_QUESTION4="Why do you want to join our clan?"
     
+    # Info messages
+    INFO_FILL_APPLICATION="Please fill out your application here: "
+    
     # Success messages
     SUCCESS_APPLICATION_UPDATED="Your application has been updated!"
     SUCCESS_MEMBER_APPROVED="Member's application approved!"
+    
+    TICKET_WELCOME_MESSAGE="# <:application:1331487726075252759> __Clan Member Application__\nWelcome! We're excited that you're interested in joining our growing community.\n\nPlease take a moment to answer the questions below so we can get to know you better.\n\n*Already part of the clan?* If you're an existing member looking to claim legacy points, please let us know your join date, and an admin will assist you shortly."
 
     # Error messages
-    ERROR_APPLICANT_FORM_INCOMPLETE="Applicant did not finish their questionnaire. If you believe this is an error, contact an admin."
-    ERROR_APPLICANT_NOT_FOUND="Applicant not found. Please contact an admin"
+    ERROR_APPLICANT_FORM_INCOMPLETE="Applicant did not finish their questionnaire."
+    ERROR_APPLICANT_NOT_FOUND="Applicant not found. (Already approved?)"
     ERROR_INVALID_DATE_FORMAT="Invalid date format. Please use MM/DD/YYYY."
     ERROR_DATE_IN_FUTURE="You provided a date in the future. Try again"
     ERROR_MODERATOR_ACCESS_ONLY="This button is for moderators only."
     ERROR_WRONG_USER_EDITING_QUESTIONS="You are not the applicant. This is for them to fill out. If you believe this is an error, contact an admin."
-    
+    ERROR_TICKET_MANUALLY_REMOVED="It looks like you had an application that has been removed. Please contact an admin"
+    ERROR_ALREADY_IN_CLAN="You're already in the clan!"
+    ERROR_ALREADY_OPEN_APPLICATION="You already have an open application here: "
     # Regex
     DATE_FORMAT="%m/%d/%Y"

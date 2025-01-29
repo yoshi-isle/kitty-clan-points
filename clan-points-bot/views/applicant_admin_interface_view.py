@@ -36,8 +36,10 @@ class ApplicantAdminView(discord.ui.View):
 
         # Generate google sheet
         await interaction.response.send_message(f"New member approved. Please wait...", ephemeral=True)
-        google_sheet_url = self.bot.sheets_service.create_sheet(applicant_discord_account.display_name, applicant)
-        member: ClanMember = self.bot.applicant_service.approve_member(applicant, google_sheet_url)
+
+        # TODO - Send message to create sheet
+
+        member: ClanMember = self.bot.applicant_service.approve_member(applicant)
         
         # Add their initial task to their sheet if any points balance
         if applicant.legacy_points > 0:
@@ -77,5 +79,5 @@ class ApplicantAdminView(discord.ui.View):
         if Constants.ROLE_NAME_MODERATOR not in [role.name for role in interaction.user.roles]:
             await interaction.response.send_message(Constants.ERROR_MODERATOR_ACCESS_ONLY, ephemeral=True)
             return
-        modal = AddLegacyPointsModal(self.bot)
+        modal = AddLegacyPointsModal(self.bot.applicant_service)
         await interaction.response.send_modal(modal)

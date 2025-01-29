@@ -1,5 +1,5 @@
 services:
-  app:
+  clan-points-bot:
     build:
       context: ./clan-points-bot
       dockerfile: Dockerfile
@@ -11,13 +11,6 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
     tty: true
-
-  mongodb:
-    image: mongo:latest
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongodb_data:/data/db
 
 volumes:
   mongodb_data:

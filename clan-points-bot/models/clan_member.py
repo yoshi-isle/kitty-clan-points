@@ -1,43 +1,46 @@
+from dataclasses import dataclass, asdict
+from datetime import datetime
+from typing import Optional, List
+
+from bson import ObjectId
 from models.task import Task
 
-class ClanMember:
-    def __init__(self,
-                 data: dict = None,
-                 discord_id: str = None,
-                 is_active: bool = False,
-                 task_history: list[Task] = None,
-                 google_sheet_url: str = None,
-                 survey_q1: str = None,
-                 survey_q2: str = None,
-                 survey_q3: str = None,
-                 survey_q4: str = None):
-        if data:
-            self.discord_id = data.get('discord_id')
-            self.is_active = data.get('is_active')
-            self.task_history = data.get('task_history')
-            self.google_sheet_url = data.get('google_sheet_url')
-            self.survey_q1 = data.get('survey_q1')
-            self.survey_q2 = data.get('survey_q2')
-            self.survey_q3 = data.get('survey_q3')
-            self.survey_q4 = data.get('survey_q4')        
-        else:
-            self.discord_id = discord_id
-            self.is_active = is_active
-            self.task_history = task_history
-            self.google_sheet_url = google_sheet_url
-            self.survey_q1 = survey_q1
-            self.survey_q2 = survey_q2
-            self.survey_q3 = survey_q3
-            self.survey_q4 = survey_q4        
 
-    def to_dict(self):
-        return {
-            "discord_id": self.discord_id,
-            "is_active": self.is_active,
-            "task_history": self.task_history,
-            "google_sheet_url": self.google_sheet_url,
-            "survey_q1": self.survey_q1,
-            "survey_q2": self.survey_q2,
-            "survey_q3": self.survey_q3,
-            "survey_q4": self.survey_q4,
-        }
+@dataclass
+class ClanMember:
+    """
+    Represents a clan member.
+
+    Attributes:
+        discord_id: The Discord ID of the clan member
+        is_active: Whether the member is currently active
+        task_history: List of tasks completed by the member
+        google_sheet_url: URL to the member's Google Sheet
+        join_date: The clan member's join date
+        survey_q1: Response to survey question 1
+        survey_q2: Response to survey question 2
+        survey_q3: Response to survey question 3
+        survey_q4: Response to survey question 4
+    """
+    
+    _id: Optional[ObjectId] = ObjectId()
+    discord_id: Optional[str] = None
+    is_active: Optional[bool] = False
+    task_history: Optional[List[Task]] = None
+    google_sheet_url: Optional[str] = None
+    join_date: Optional[datetime] = None
+    survey_q1: Optional[str] = None
+    survey_q2: Optional[str] = None
+    survey_q3: Optional[str] = None
+    survey_q4: Optional[str] = None
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "ClanMember":
+        """Create a ClanMember instance from a dictionary."""
+        if data is None:
+            return
+        return cls(**data)
+
+    def to_dict(self) -> dict:
+        """Convert the ClanMember instance to a dictionary."""
+        return asdict(self)

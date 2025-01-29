@@ -2,12 +2,13 @@ import discord
 from datetime import datetime
 from models.applicant import Applicant
 from constants.constants import Constants
+from services.applicant_service import ApplicantService
 
 class AddLegacyPointsModal(discord.ui.Modal, title="Add Legacy Points"):
-    def __init__(self, bot, *args, **kwargs):
+    def __init__(self, applicant_service: ApplicantService, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.bot=bot
-
+        self.applicant_service=applicant_service
+        
         # Create TextInputs with existing answers if available
         self.point_amount=discord.ui.TextInput(
             label="User's join date",
@@ -18,11 +19,11 @@ class AddLegacyPointsModal(discord.ui.Modal, title="Add Legacy Points"):
         self.add_item(self.point_amount)
 
     async def on_submit(self, interaction: discord.Interaction):
-        applicant: Applicant = self.bot.applicant_service.get_applicant_by_ticket_channel_id(interaction.channel_id)
+        applicant: Applicant = self.applicant_service.get_applicant_by_ticket_channel_id(interaction.channel_id)
         if not applicant:
             await interaction.response.send_message(Constants.ERROR_APPLICANT_NOT_FOUND, ephemeral=True,)
             return
-
+        
         # Parse the date
         join_date_str=self.point_amount.value
 
@@ -51,6 +52,6 @@ class AddLegacyPointsModal(discord.ui.Modal, title="Add Legacy Points"):
             inline=False,)
         await admin_panel_message.edit(embed=admin_panel_embed)
 
-        self.bot.applicant_service.add_legacy_points(applicant, amount_to_add, join_date_str)
+        self.applicant_service.add_legacy_points(applicant, amount_to_add, join_date_str)
         
         await interaction.response.send_message(f"<a:verify:1331487158489452626> **{interaction.user.display_name}** added **{amount_to_add}** legacy points for you!\n*(based on your start date of {join_date_str} - {months_diff} months in the clan)*")

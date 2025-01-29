@@ -11,7 +11,6 @@ class ApplicantService:
         
     def create_new_applicant(self, discord_id: int, ticket_channel_id: int, application_embed_id: int, admin_interface_embed_id: int) -> Applicant:
         applicant=Applicant(
-                data=None,
                 discord_id=discord_id,
                 is_active=True,
                 ticket_channel_id=ticket_channel_id,
@@ -27,24 +26,18 @@ class ApplicantService:
         return applicant
     
     def get_applicant_by_discord_id(self, discord_id: int) -> Optional[Applicant]:
-        applicant_record = self.db.applicants_collection.find_one(
+        return Applicant.from_dict(self.db.applicants_collection.find_one(
             {
                 "discord_id": discord_id,
                 "is_active": True
-            })
-        if applicant_record:
-            return Applicant(applicant_record)
-        return None
+            }))
     
     def get_applicant_by_ticket_channel_id(self, ticket_channel_id: int) -> Optional[Applicant]:
-        applicant_record = self.db.applicants_collection.find_one(
+        return Applicant.from_dict(self.db.applicants_collection.find_one(
             {
                 "ticket_channel_id": ticket_channel_id,
                 "is_active": True
-            })
-        if applicant_record:
-            return Applicant(applicant_record)
-        return None
+            }))
 
     def add_legacy_points(self, applicant: Applicant, amount_to_add: int, join_date_str):
         # Convert date string to datetime object
@@ -90,13 +83,14 @@ class ApplicantService:
                 }
             },)
                 
-    def approve_member(self, applicant: Applicant, google_sheet_url: str) -> ClanMember:
+    def approve_member(self, applicant: Applicant) -> ClanMember:
         # Add the new member
         new_member=ClanMember(
                 discord_id=applicant.discord_id,
                 is_active=True,
-                google_sheet_url=google_sheet_url,
+                google_sheet_url=None,
                 task_history=[],
+                join_date=applicant.join_date,
                 survey_q1=applicant.survey_q1,
                 survey_q2=applicant.survey_q2,
                 survey_q3=applicant.survey_q3,

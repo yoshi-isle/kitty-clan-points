@@ -3,7 +3,6 @@ import os
 from discord.ext import commands
 from dotenv import load_dotenv
 
-from services.google_sheet_service import GoogleSheetsService
 from services.applicant_service import ApplicantService
 from services.clan_member_service import ClanMemberService
 
@@ -29,9 +28,8 @@ class Bot(commands.Bot):
         self.db = Database()
 
         # Setup services
-        self.sheets_service=GoogleSheetsService()
         self.applicant_service=ApplicantService(self.db)
-        self.clan_member_service=ClanMemberService(self.db, self.sheets_service)
+        self.clan_member_service=ClanMemberService(self.db)
 
     async def setup_hook(self) -> None:
         # Persist views
@@ -53,4 +51,4 @@ class Bot(commands.Bot):
 bot=Bot()
 
 if __name__ == "__main__":
-    bot.run(os.getenv("DISCORD_TOKEN"))
+    bot.run(os.getenv("DISCORD_BOT_TOKEN"))
