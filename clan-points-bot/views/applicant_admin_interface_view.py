@@ -1,3 +1,4 @@
+import json
 import discord
 import pika
 
@@ -38,16 +39,15 @@ class ApplicantAdminView(discord.ui.View):
 
         await interaction.response.send_message(f"New member approved. Please wait...", ephemeral=True)
 
-        # Generate google sheet
-        connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq'))
-        new_member_channel = connection.channel()
-        new_member_channel.queue_declare(queue='new_member')
-        new_member_channel.basic_publish(exchange='',
-                      routing_key='new_member',
-                      body='test')
-        connection.close()
-
         member: ClanMember = self.bot.applicant_service.approve_member(applicant)
+        
+        # Send out request to generate google sheet
+        self.bot.new_member_channel.basic_publish(exchange='', routing_key='new_member',
+            body=json.dumps({
+                "discord_id": str(applicant.discord_id),
+                "username": applicant_discord_account.display_name
+            }))
+
         
         # Add their initial task to their sheet if any points balance
         if applicant.legacy_points > 0:

@@ -34,9 +34,9 @@ class Bot(commands.Bot):
         self.clan_member_service=ClanMemberService(self.db)
         
         # RabbitMQ setup
-        # connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq'))
-        # new_member_channel = connection.channel()
-        # new_member_channel.queue_declare(queue='new_member')
+        connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq'))
+        self.new_member_channel = connection.channel()
+        self.new_member_channel.queue_declare(queue='new_member')
 
 
     async def setup_hook(self) -> None:
