@@ -14,17 +14,18 @@ class ClanMemberService:
                 "is_active": True
             }))
 
-    def add_task(self, member: ClanMember, task: Task):
+    def add_task(self, member: ClanMember, task: Task) -> ClanMember:
         try:
-            self.db.members_collection.update_one(
+            return ClanMember.from_dict(self.db.members_collection.find_one_and_update(
                 {
-                "discord_id": member.discord_id,
-                "is_active": True
+                    "discord_id": member.discord_id,
+                    "is_active": True
                 },
                 {
-                "$push": {
-                    "task_history": task.to_dict()
-                }})
+                    "$push": {"task_history": task.to_dict()}
+                },
+                    return_document=True
+                ))
             
         except Exception as e:
             print(f"Error adding task to the user: {e}")

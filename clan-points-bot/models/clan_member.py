@@ -25,10 +25,12 @@ class ClanMember:
     
     _id: Optional[ObjectId] = ObjectId()
     discord_id: Optional[str] = None
+    discord_display_name: Optional[str] = None
     is_active: Optional[bool] = False
     task_history: Optional[List[Task]] = None
     google_sheet_url: Optional[str] = None
     join_date: Optional[datetime] = None
+    osrs_account_wom_ids: Optional[List[int]] = None
     survey_q1: Optional[str] = None
     survey_q2: Optional[str] = None
     survey_q3: Optional[str] = None

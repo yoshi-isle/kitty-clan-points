@@ -83,7 +83,7 @@ class ApplicantService:
                 }
             },)
                 
-    def approve_member(self, applicant: Applicant) -> ClanMember:
+    def approve_member(self, applicant: Applicant, display_name: str) -> ClanMember:
         # Add the new member
         new_member=ClanMember(
                 discord_id=applicant.discord_id,
@@ -91,6 +91,8 @@ class ApplicantService:
                 google_sheet_url=None,
                 task_history=[],
                 join_date=applicant.join_date,
+                discord_display_name=display_name,
+                osrs_account_wom_ids=None,
                 survey_q1=applicant.survey_q1,
                 survey_q2=applicant.survey_q2,
                 survey_q3=applicant.survey_q3,

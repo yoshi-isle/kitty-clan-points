@@ -1,4 +1,5 @@
 import json
+import os
 import discord
 import pika
 
@@ -39,15 +40,7 @@ class ApplicantAdminView(discord.ui.View):
 
         await interaction.response.send_message(f"New member approved. Please wait...", ephemeral=True)
 
-        member: ClanMember = self.bot.applicant_service.approve_member(applicant)
-        
-        # Send out request to generate google sheet
-        self.bot.new_member_channel.basic_publish(exchange='', routing_key='new_member',
-            body=json.dumps({
-                "discord_id": str(applicant.discord_id),
-                "username": applicant_discord_account.display_name
-            }))
-
+        member: ClanMember = self.bot.applicant_service.approve_member(applicant, applicant_discord_account.display_name)
         
         # Add their initial task to their sheet if any points balance
         if applicant.legacy_points > 0:
@@ -60,16 +53,23 @@ class ApplicantAdminView(discord.ui.View):
                 image_url=None,
                 approved_by=interaction.user.display_name)
         
-            self.bot.clan_member_service.add_task(member, legacy_task)
-
+            member = self.bot.clan_member_service.add_task(member, legacy_task)
+            
         # Add clan member role to the user
         member_role = discord.utils.get(interaction.guild.roles, name=Constants.ROLE_NAME_CATNIP)
-        
+        await applicant_discord_account.add_roles(member_role)
+
         # Remove the answer questions button from the form
         application_embed_message: discord.Message = await interaction.channel.fetch_message(applicant.application_embed_message_id)
         await application_embed_message.edit(view=None)
         
-        await applicant_discord_account.add_roles(member_role)
+        # Send out request to generate google sheet
+        connection = pika.BlockingConnection(pika.ConnectionParameters(os.getenv('RABBITMQ_CONNECTION_STRING')))
+        new_member_channel = connection.channel()
+        new_member_channel.queue_declare(queue='new_member')
+        new_member_channel.basic_publish(exchange='', routing_key='new_member', body=json.dumps(member.to_dict(), default=str).encode("utf-8"))
+        new_member_channel.close()
+        
         await interaction.followup.send(f"# Application Approved <:thumbsup:1330740113348497541>\nWelcome to the clan {self.bot.get_user(applicant.discord_id).mention}! We hope you enjoy your time at Kitty.\n<:acceptaid:1331014462521741322> Don't forget to enable accept aid!\nAn admin will arrange to meet you in-game to officially invite you")
 
     @discord.ui.button(label=Constants.BUTTON_ADMIN_PANEL_CLOSE, style=discord.ButtonStyle.secondary, custom_id="close_ticket",)
