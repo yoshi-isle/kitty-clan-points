@@ -1,5 +1,7 @@
 import discord
 import os
+import pika
+
 from discord.ext import commands
 from dotenv import load_dotenv
 
@@ -30,6 +32,12 @@ class Bot(commands.Bot):
         # Setup services
         self.applicant_service=ApplicantService(self.db)
         self.clan_member_service=ClanMemberService(self.db)
+        
+        # RabbitMQ setup
+        # connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq'))
+        # new_member_channel = connection.channel()
+        # new_member_channel.queue_declare(queue='new_member')
+
 
     async def setup_hook(self) -> None:
         # Persist views

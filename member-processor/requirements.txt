@@ -1,0 +1,6 @@
+gspread
+gspread_formatting
+watchdog
+python-dotenv
+pymongo
+pika

@@ -1,4 +1,6 @@
 import discord
+import pika
+
 from embeds.join_clan_embeds import JoinClanEmbeds
 from views.close_ticket_view import CloseTicketView
 from modals.add_legacy_points_modal import AddLegacyPointsModal
@@ -34,10 +36,16 @@ class ApplicantAdminView(discord.ui.View):
         # Get discord member from applicant
         applicant_discord_account = interaction.guild.get_member(applicant.discord_id)
 
-        # Generate google sheet
         await interaction.response.send_message(f"New member approved. Please wait...", ephemeral=True)
 
-        # TODO - Send message to create sheet
+        # Generate google sheet
+        connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq'))
+        new_member_channel = connection.channel()
+        new_member_channel.queue_declare(queue='new_member')
+        new_member_channel.basic_publish(exchange='',
+                      routing_key='new_member',
+                      body='test')
+        connection.close()
 
         member: ClanMember = self.bot.applicant_service.approve_member(applicant)
         
