@@ -1,12 +1,12 @@
 import discord
 from constants.constants import Constants
 from models.applicant import Applicant
-
+from services.applicant_service import ApplicantService
 
 class QuestionModal(discord.ui.Modal, title="Clan Application"):
-    def __init__(self, bot, existing_answers=None, *args, **kwargs):
+    def __init__(self, applicant_service: ApplicantService, existing_answers=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.bot=bot
+        self.applicant_service = applicant_service
 
         # Create TextInputs with existing answers if available and set character limits
         self.question1 = discord.ui.TextInput(
@@ -45,7 +45,7 @@ class QuestionModal(discord.ui.Modal, title="Clan Application"):
     async def on_submit(self, interaction: discord.Interaction):
         try:
             # Get the embed to edit
-            applicant: Applicant = self.bot.applicant_service.get_applicant_by_discord_id(interaction.user.id)
+            applicant: Applicant = self.applicant_service.get_applicant_by_discord_id(interaction.user.id)
             if not applicant:
                 interaction.response.send_message(Constants.ERROR_APPLICANT_NOT_FOUND, ephemeral=True)
                 return
@@ -54,7 +54,7 @@ class QuestionModal(discord.ui.Modal, title="Clan Application"):
             admin_panel_message=await interaction.channel.fetch_message(applicant.admin_interface_message_id)
 
             # Update applicant's survey questions
-            self.bot.applicant_service.update_survey_questions(applicant, self.question1.value, self.question2.value, self.question3.value, self.question4.value)
+            self.applicant_service.update_survey_questions(applicant, self.question1.value, self.question2.value, self.question3.value, self.question4.value)
 
             # Edit the application message answers
             application_embed=(application_message.embeds[0] if application_message.embeds else None)

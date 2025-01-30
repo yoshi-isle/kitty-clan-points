@@ -9,11 +9,10 @@ from services.clan_member_service import ClanMemberService
 from constants.constants import Constants
 
 class JoinClanView(discord.ui.View):
-    def __init__(self, bot):
+    def __init__(self, applicant_service: ApplicantService, clan_member_service: ClanMemberService):
         super().__init__(timeout=None)
-        self.bot=bot
-        self.applicant_service: ApplicantService=self.bot.applicant_service
-        self.clan_member_service: ClanMemberService=self.bot.clan_member_service
+        self.applicant_service = applicant_service
+        self.clan_member_service = clan_member_service
     
     @discord.ui.button(label=Constants.BUTTON_APPLY_TO_JOIN, style=discord.ButtonStyle.primary, custom_id="join_clan")
     async def join_clan(self, interaction: discord.Interaction, button: discord.ui.Button):
@@ -46,13 +45,13 @@ class JoinClanView(discord.ui.View):
             await new_ticket.edit(category=channel)
             
             # Create the admin interface
-            admin_interface_message: discord.Message=await new_ticket.send(embed=await JoinClanEmbeds.get_admin_interface_embed(), view=ApplicantAdminView(self.bot))
+            admin_interface_message: discord.Message=await new_ticket.send(embed=await JoinClanEmbeds.get_admin_interface_embed(), view=ApplicantAdminView(self.applicant_service, self.clan_member_service))
 
             # Send a welcome message
             await new_ticket.send(Constants.TICKET_WELCOME_MESSAGE)
             
             # Create application embed and send applicant view
-            application_embed_message: discord.Message=await new_ticket.send(embed=await JoinClanEmbeds.get_join_clan_embed(interaction.user), view=ApplicantView(self.bot))
+            application_embed_message: discord.Message=await new_ticket.send(embed=await JoinClanEmbeds.get_join_clan_embed(interaction.user), view=ApplicantView(self.applicant_service))
             
             await new_ticket.send(f"<a:Wave:1331488563715510322> Hi {interaction.user.mention} - The form above is for you to fill out. Ping an admin when you are done.")
 

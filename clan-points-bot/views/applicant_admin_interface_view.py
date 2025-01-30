@@ -11,11 +11,15 @@ from models.applicant import Applicant
 from models.task import Task
 from constants.constants import Constants
 from constants.tasks import Tasks
+from services.applicant_service import ApplicantService
+from services.clan_member_service import ClanMemberService
+
 
 class ApplicantAdminView(discord.ui.View):
-    def __init__(self, bot):
+    def __init__(self, applicant_service: ApplicantService, clan_member_service: ClanMemberService):
         super().__init__(timeout=None)
-        self.bot = bot
+        self.applicant_service = applicant_service
+        self.clan_member_service = clan_member_service
 
     @discord.ui.button(label=Constants.BUTTON_ADMIN_PANEL_APPROVE, style=discord.ButtonStyle.secondary, custom_id="approve_member",)
     async def approve_member(self, interaction: discord.Interaction, button: discord.ui.Button):
@@ -25,7 +29,7 @@ class ApplicantAdminView(discord.ui.View):
             return
         
         # Get applicant
-        applicant: Applicant = self.bot.applicant_service.get_applicant_by_ticket_channel_id(interaction.channel.id)
+        applicant: Applicant = self.applicant_service.get_applicant_by_ticket_channel_id(interaction.channel.id)
         if not applicant:
             await interaction.response.send_message(Constants.ERROR_APPLICANT_NOT_FOUND, ephemeral=True)
             return
@@ -40,7 +44,7 @@ class ApplicantAdminView(discord.ui.View):
 
         await interaction.response.send_message(f"New member approved. Please wait...", ephemeral=True)
 
-        member: ClanMember = self.bot.applicant_service.approve_member(applicant, applicant_discord_account.display_name)
+        member: ClanMember = self.applicant_service.approve_member(applicant, applicant_discord_account.display_name)
         
         # Add their initial task to their sheet if any points balance
         if applicant.legacy_points > 0:
@@ -53,7 +57,7 @@ class ApplicantAdminView(discord.ui.View):
                 image_url=None,
                 approved_by=interaction.user.display_name)
         
-            member = self.bot.clan_member_service.add_task(member, legacy_task)
+            member = self.clan_member_service.add_task(member, legacy_task)
             
         # Add clan member role to the user
         member_role = discord.utils.get(interaction.guild.roles, name=Constants.ROLE_NAME_CATNIP)
@@ -70,7 +74,7 @@ class ApplicantAdminView(discord.ui.View):
         new_member_channel.basic_publish(exchange='', routing_key='new_member', body=json.dumps(member.to_dict(), default=str).encode("utf-8"))
         new_member_channel.close()
         
-        await interaction.followup.send(f"# Application Approved <:thumbsup:1330740113348497541>\nWelcome to the clan {self.bot.get_user(applicant.discord_id).mention}! We hope you enjoy your time at Kitty.\n<:acceptaid:1331014462521741322> Don't forget to enable accept aid!\nAn admin will arrange to meet you in-game to officially invite you")
+        await interaction.followup.send(f"# Application Approved <:thumbsup:1330740113348497541>\nWelcome to the clan {applicant_discord_account.mention}! We hope you enjoy your time at Kitty.\n<:acceptaid:1331014462521741322> Don't forget to enable accept aid!\nAn admin will arrange to meet you in-game to officially invite you")
 
     @discord.ui.button(label=Constants.BUTTON_ADMIN_PANEL_CLOSE, style=discord.ButtonStyle.secondary, custom_id="close_ticket",)
     async def close_ticket(self, interaction: discord.Interaction, button: discord.ui.Button):
@@ -87,5 +91,5 @@ class ApplicantAdminView(discord.ui.View):
         if Constants.ROLE_NAME_MODERATOR not in [role.name for role in interaction.user.roles]:
             await interaction.response.send_message(Constants.ERROR_MODERATOR_ACCESS_ONLY, ephemeral=True)
             return
-        modal = AddLegacyPointsModal(self.bot.applicant_service)
+        modal = AddLegacyPointsModal(self.applicant_service)
         await interaction.response.send_modal(modal)

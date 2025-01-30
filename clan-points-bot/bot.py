@@ -35,10 +35,10 @@ class Bot(commands.Bot):
 
     async def setup_hook(self) -> None:
         # Persist views
-        self.add_view(JoinClanView(self))
+        self.add_view(JoinClanView(self.applicant_service, self.clan_member_service))
         self.add_view(ApplicantView(self))
         self.add_view(WelcomeView(self))
-        self.add_view(ApplicantAdminView(self))
+        self.add_view(ApplicantAdminView(self.applicant_service, self.clan_member_service))
         self.add_view(CloseTicketView(self))
 
         # Load cogs
