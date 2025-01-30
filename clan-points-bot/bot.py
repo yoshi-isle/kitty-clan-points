@@ -42,8 +42,9 @@ class Bot(commands.Bot):
         self.add_view(CloseTicketView(self))
 
         # Load cogs
-        await self.load_extension("cogs.admin_cog")
         await self.load_extension("cogs.user_cog")
+        await self.load_extension("cogs.admin_cog")
+        await self.load_extension("cogs.static_embed_cog")
 
     async def on_ready(self):
         await self.tree.sync()

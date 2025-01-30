@@ -1,21 +1,11 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
-from views.join_clan_view import JoinClanView
-from views.welcome_view import WelcomeView
-from embeds.join_clan_embeds import JoinClanEmbeds
 from models.clan_member import ClanMember
 
 class AdminCog(commands.Cog):
     def __init__(self, bot):
         self.bot=bot
-
-    @app_commands.command(name="post_welcome_embed", description="Displays welcome embed for the clan")
-    @app_commands.checks.has_role("Admin")
-    async def post_welcome_embed(self, interaction: discord.Interaction):
-        await interaction.channel.send(embed=await JoinClanEmbeds.get_kitty_welcome_embed(), view=WelcomeView(self.bot))
-        await interaction.channel.send(embed=await JoinClanEmbeds.get_application_embed(), view=JoinClanView(self.bot))
-        await interaction.response.send_message(f"Join clan embed posted", ephemeral=True)
 
     # TODO - Remove for production
     @app_commands.command(name="clear_db", description="Clear database (for testing)")

@@ -73,6 +73,15 @@ class JoinClanEmbeds:
 
         return embed
 
+    async def get_how_to_submit_clan_points_embed() -> discord.Embed:
+        embed = discord.Embed(colour=0x00b0f4)
+
+        embed.add_field(name="Submit Clan Points",
+                        value="Use **/submit_points** inside this channel to earn your clan points!\nYou can paste (CTRL-V) a screenshot into the command\n\nList of available things you can submit: [google doc]\n\n**Messages in here will get auto-deleted**",
+                        inline=False)
+        return embed
+
+
     async def get_close_ticket_confirmation_embed() -> discord.Embed:
         embed = discord.Embed(colour=0xff0000)
         embed.set_author(name="Are you sure you want to close & delete this channel?")

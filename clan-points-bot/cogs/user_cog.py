@@ -14,10 +14,13 @@ class UserCog(commands.Cog):
             for task in tasks
             if current.lower() in task.lower()][:25]
 
-    @app_commands.command(name="submit", description="Submit points for a task")
+    @app_commands.command(name="submit_points", description="Submit points for a task")
     @app_commands.autocomplete(task=task_autocomplete)
     async def submit(self, interaction: discord.Interaction, task: str, img: discord.Attachment):
-        await interaction.response.send_message(f"Submitting task: {task}")
+        if not img.content_type or not img.content_type.startswith('image/'):
+            await interaction.response.send_message("The attachment must be an image.", ephemeral=True)
+            return
+        await interaction.response.send_message(f"Submitting task: {task}", ephemeral=True)
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(UserCog(bot))
