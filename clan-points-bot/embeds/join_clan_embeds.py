@@ -28,7 +28,8 @@ class JoinClanEmbeds:
             name="Why do you want to join our clan?",
             value="``` ```",
             inline=False,)
-        embed.set_thumbnail(url=user.avatar.url)
+        if user.avatar:
+            embed.set_thumbnail(url=user.avatar.url)
         return embed
 
     async def get_admin_interface_embed() -> discord.Embed:
