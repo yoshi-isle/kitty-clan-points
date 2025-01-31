@@ -11,4 +11,4 @@ class Database:
         # Set up collections
         self.members_collection=self.db["clanmembers"]
         self.applicants_collection=self.db["applicants"]
-        self.rankuprequests_collection=self.db["rankuprequests"]
+        self.submissions_collection=self.db["submissions"]

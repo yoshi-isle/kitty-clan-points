@@ -1,4 +1,3 @@
-from __future__ import annotations
 from dataclasses import dataclass, asdict, field
 from typing import Optional
 from datetime import datetime
@@ -38,7 +37,7 @@ class Applicant:
     survey_q4: Optional[str] = None
 
     @classmethod
-    def from_dict(cls, data: dict) -> Applicant:
+    def from_dict(cls, data: dict) -> "Applicant":
         """Create an Applicant instance from a dictionary."""
         if data is None:
             return

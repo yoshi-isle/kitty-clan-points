@@ -1,5 +1,6 @@
 from models.clan_member import ClanMember
 from models.task import Task
+from models.submission import Submission
 from typing import Optional
 from database import Database
 
@@ -13,6 +14,10 @@ class ClanMemberService:
                 "discord_id": discord_id,
                 "is_active": True
             }))
+        
+    def submit_task(self, submission: Submission) -> Submission:
+        self.db.submissions_collection.insert_one(submission.to_dict())
+        return Submission.from_dict(self.db.submissions_collection.find_one(submission.to_dict()))
 
     def add_task(self, member: ClanMember, task: Task) -> ClanMember:
         try:
