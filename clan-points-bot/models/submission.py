@@ -17,21 +17,27 @@ class Submission:
         approved_by: The Discord ID of the person who approved the task
     """
 
-    _id: Optional[ObjectId] = ObjectId()
+    _id: Optional[ObjectId] = None
     is_active: Optional[bool] = None
     task: Optional[Task] = None
     discord_id: Optional[int] = None
     approved_by: Optional[str] = None
+    image_url: Optional[str] = None
 
     @classmethod
     def from_dict(cls, data: dict) -> "Submission":
         """Create a Submission instance from a dictionary."""
         if data is None:
+            # Fixes issue with duplicate _ids
+            # https://stackoverflow.com/questions/17529216/mongodb-insert-raises-duplicate-key-error
+            del data['_id']
             return
         return cls(**data)
 
     def to_dict(self) -> dict:
         """Convert the Submission instance to a dictionary."""
         data = asdict(self)
+        if self._id is None:
+            del data['_id']
         return data
 
