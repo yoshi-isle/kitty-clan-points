@@ -45,6 +45,7 @@ class Bot(commands.Bot):
         await self.load_extension("cogs.user_cog")
         await self.load_extension("cogs.admin_cog")
         await self.load_extension("cogs.static_embed_cog")
+        await self.load_extension("cogs.approval_cog")
 
     async def on_ready(self):
         await self.tree.sync()
