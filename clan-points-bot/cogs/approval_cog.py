@@ -1,6 +1,9 @@
+import json
+import os
 import discord
 from discord.ext import commands
 from discord import app_commands
+import pika
 from constants.constants import Constants
 from constants.tasks import Tasks
 from models.submission import Submission
@@ -37,9 +40,19 @@ class ApprovalCog(commands.Cog):
             print(f"No submission ID found from post")
             return
         
+        submission: Submission = self.bot.clan_member_service.get_submission(submission_id)
+        
         # Approve
         if str(payload.emoji) == '✅':
             await message.reply(f"✅ {self.bot.get_user(payload.user_id).display_name} approved this submission ({submission_id})")
+            
+            # Send out request to generate google sheet
+            connection = pika.BlockingConnection(pika.ConnectionParameters(os.getenv('RABBITMQ_CONNECTION_STRING')))
+            new_member_channel = connection.channel()
+            new_member_channel.queue_declare(queue='accept_submission')
+            new_member_channel.basic_publish(exchange='', routing_key='accept_submission', body=json.dumps(submission.to_dict(), default=str).encode("utf-8"))
+            new_member_channel.close()
+            
             embed.color = discord.Color.green()
             embed.set_footer(text="")
             embed.add_field(name="Approved by", value=self.bot.get_user(payload.user_id).display_name, inline=False)

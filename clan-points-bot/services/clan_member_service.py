@@ -1,3 +1,4 @@
+from bson import ObjectId
 from models.clan_member import ClanMember
 from models.task import Task
 from models.submission import Submission
@@ -34,4 +35,7 @@ class ClanMemberService:
             
         except Exception as e:
             print(f"Error adding task to the user: {e}")
-
+    
+    def get_submission(self, id: ObjectId) -> Submission:
+        submission = self.db.submissions_collection.find_one({"_id": ObjectId(id)})
+        return Submission.from_dict(submission)
