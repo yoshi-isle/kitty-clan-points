@@ -1,4 +1,5 @@
 from dataclasses import dataclass, asdict
+from datetime import date, datetime
 from typing import Optional
 
 
@@ -21,6 +22,7 @@ class Task:
     task_id: Optional[int] = None
     point_value: Optional[int] = None
     image_url: Optional[str] = None
+    achieved_on: Optional[datetime] = None
     approved_by: Optional[str] = None
 
     @classmethod

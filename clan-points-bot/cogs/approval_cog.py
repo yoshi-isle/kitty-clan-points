@@ -41,7 +41,7 @@ class ApprovalCog(commands.Cog):
             return
         
         submission: Submission = self.bot.clan_member_service.get_submission(submission_id)
-        
+        submission.approved_by = self.bot.get_user(payload.user_id).display_name
         # Approve
         if str(payload.emoji) == '✅':
             await message.reply(f"✅ {self.bot.get_user(payload.user_id).display_name} approved this submission ({submission_id})")

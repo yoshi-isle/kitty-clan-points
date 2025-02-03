@@ -36,7 +36,7 @@ class UserCog(commands.Cog):
         submission: Submission = self.bot.clan_member_service.submit_task(Submission(
             is_active=True,
             task=submited_task,
-            discord_id=interaction.id,
+            discord_id=interaction.user.id,
             approved_by=None,
             image_url=img.url
         ))
