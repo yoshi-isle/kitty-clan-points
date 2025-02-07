@@ -43,7 +43,7 @@ def process_message(body, db: Database):
             )
         
         # Append the completed task
-        db.members_collection.find_one_and_update(
+        member = db.members_collection.find_one_and_update(
             {
                 "discord_id": submission.discord_id,
                 "is_active": True
@@ -54,6 +54,18 @@ def process_message(body, db: Database):
                 return_document=True
         )
         
+        # Send out request to update user's google sheet
+        connection = pika.BlockingConnection(pika.ConnectionParameters(os.getenv('RABBITMQ_CONNECTION_STRING')))
+        channel = connection.channel()
+        channel.queue_declare(queue='add_task')
+        channel.basic_publish(exchange='', routing_key='add_task', body=json.dumps(
+            {
+                "sheet_url": member["google_sheet_url"],
+                "task": completed_task.to_dict()
+            },
+            default=str).encode("utf-8"))
+        
+        channel.close()
         return True
     
     except Exception as e:

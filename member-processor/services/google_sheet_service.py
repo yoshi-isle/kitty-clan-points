@@ -90,39 +90,38 @@ class GoogleSheetsService:
         except Exception as e:
             print(f"Error adding sheet: {e}")
 
-    # def add_task(self, sheet_url: str, task: Task):
-    #         try:
-    #             worksheet = self.open_sheet(sheet_url)
-    #             # Get all values in column A starting from row 5
-    #             values = worksheet.col_values(1)[4:]
-    #             # Find the first empty row
-    #             next_row = 5 + len([v for v in values if v.strip() != ""])
+    def add_task(self, sheet_url: str, task: Task):
+            try:
+                worksheet = self.open_sheet(sheet_url)
+                # Get all values in column A starting from row 5
+                values = worksheet.col_values(1)[4:]
+                # Find the first empty row
+                next_row = 5 + len([v for v in values if v.strip() != ""])
                 
-    #             # Update the cells with task info
-    #             worksheet.update_cell(next_row, 1, task.task_name)
-    #             worksheet.update_cell(next_row, 2, task.point_value)
-    #             worksheet.update_cell(next_row, 3, task.image_url)
-    #             worksheet.update_cell(next_row, 4, task.approved_by)
-
-    #             return True
-    #         except Exception as e:
-    #             print(f"Error adding task: {e}")
-    #             return False
+                # Update the cells with task info
+                worksheet.update_cell(next_row, 1, task.task_name)
+                worksheet.update_cell(next_row, 2, task.point_value)
+                worksheet.update_cell(next_row, 3, task.image_url)
+                worksheet.update_cell(next_row, 4, task.approved_by)
+                return True
+            except Exception as e:
+                print(f"Error adding task: {e}")
+                return False
         
-    # def open_sheet(self, sheet_url: str):
-    #     """
-    #     Opens a Google Sheet by URL and returns the first worksheet
-    #     """
-    #     if self.client is None:
-    #         self.client = self.authorize_client()
-    #         return None
+    def open_sheet(self, sheet_url: str):
+        """
+        Opens a Google Sheet by URL and returns the first worksheet
+        """
+        if self.client is None:
+            self.client = self.authorize_client()
+            return None
 
-    #     try:
-    #         sheet_id = sheet_url.split('/')[5]  # URLs are in format: https://docs.google.com/spreadsheets/d/{sheet_id}/...
-    #         spreadsheet = self.client.open_by_key(sheet_id)
-    #         return spreadsheet.get_worksheet(0)
-    #     except Exception as e:
-    #         print(f"Error opening sheet: {e}")
-    #         return None
+        try:
+            sheet_id = sheet_url.split('/')[5]  # URLs are in format: https://docs.google.com/spreadsheets/d/{sheet_id}/...
+            spreadsheet = self.client.open_by_key(sheet_id)
+            return spreadsheet.get_worksheet(0)
+        except Exception as e:
+            print(f"Error opening sheet: {e}")
+            return None
 
 
